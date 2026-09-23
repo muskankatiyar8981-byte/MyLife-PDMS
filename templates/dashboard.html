@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MyLife Dashboard</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            background: #f4f2f7;
+            color: #51496b;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            background: white;
+            padding: 17px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 700;
+            color: #7567a8;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-name {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .summary-btn {
+            text-decoration: none;
+            background: #7567a8;
+            color: white;
+            padding: 9px 17px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+
+        .summary-btn:hover {
+            background: #66598f;
+            transform: translateY(-1px);
+        }
+
+        .logout {
+            text-decoration: none;
+            color: #665b82;
+            background: #eeeaf7;
+            padding: 9px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .logout:hover {
+            background: #e2ddf0;
+        }
+
+        /* MAIN */
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+
+        /* WELCOME */
+
+        .welcome {
+            background: linear-gradient(
+                135deg,
+                #eeeaf7,
+                #ffffff
+            );
+
+            padding: 28px;
+            border-radius: 24px;
+            margin-bottom: 25px;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .welcome h1 {
+            margin: 0;
+            font-size: 27px;
+            color: #51496b;
+        }
+
+        .welcome p {
+            margin: 8px 0 0;
+            color: #888;
+            font-size: 14px;
+        }
+
+        /* STATS */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .stat-icon {
+            font-size: 27px;
+        }
+
+        .stat-card h3 {
+            margin: 8px 0 4px;
+            font-size: 12px;
+            color: #888;
+            font-weight: 500;
+        }
+
+        .stat-card p {
+            margin: 0;
+            font-size: 23px;
+            font-weight: 700;
+            color: #7567a8;
+        }
+
+        /* FEATURE TITLE */
+
+        .section-title {
+            margin-bottom: 15px;
+        }
+
+        .section-title h2 {
+            margin: 0;
+            font-size: 21px;
+            color: #51496b;
+        }
+
+        .section-title p {
+            margin: 5px 0 0;
+            color: #999;
+            font-size: 13px;
+        }
+
+        /* FEATURE CARDS */
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 24px;
+            border-radius: 22px;
+
+            text-decoration: none;
+            color: inherit;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+
+            transition: 0.2s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 9px 25px rgba(0, 0, 0, 0.09);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #eeeaf7;
+            border-radius: 15px;
+
+            font-size: 25px;
+
+            margin-bottom: 14px;
+        }
+
+        .feature-card h3 {
+            margin: 0;
+            font-size: 16px;
+            color: #51496b;
+        }
+
+        .feature-card p {
+            margin: 7px 0 0;
+            color: #999;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        /* PROGRESS */
+
+        .progress-box {
+            background: white;
+            padding: 23px;
+            border-radius: 22px;
+            margin-top: 25px;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .progress-top h3 {
+            margin: 0;
+            font-size: 16px;
+            color: #51496b;
+        }
+
+        .progress-percent {
+            font-size: 14px;
+            font-weight: 700;
+            color: #7567a8;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #eeeaf7;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: {{ progress }}%;
+            background: #9a8bc4;
+            border-radius: 20px;
+        }
+
+        .progress-text {
+            margin-top: 9px;
+            color: #999;
+            font-size: 11px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 900px) {
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .features {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 15px 4%;
+            }
+
+            .logo {
+                font-size: 21px;
+            }
+
+            .user-name {
+                display: none;
+            }
+
+            .summary-btn {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            .logout {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            .nav-right {
+                gap: 7px;
+            }
+
+            .container {
+                width: 94%;
+                margin-top: 25px;
+            }
+
+            .welcome {
+                padding: 22px;
+            }
+
+            .welcome h1 {
+                font-size: 23px;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 400px) {
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        💜 MyLife
+    </div>
+
+    <div class="nav-right">
+
+        <span class="user-name">
+            Hi, {{ session["user_name"] }} 👋
+        </span>
+
+        <!-- SUMMARY BUTTON -->
+
+        <a
+            href="{{ url_for('summary') }}"
+            class="summary-btn"
+        >
+            📋 Summary
+        </a>
+
+        <!-- LOGOUT -->
+
+        <a
+            href="{{ url_for('logout') }}"
+            class="logout"
+        >
+            Logout
+        </a>
+
+    </div>
+
+</nav>
+
+
+<div class="container">
+
+
+    <!-- WELCOME -->
+
+    <div class="welcome">
+
+        <h1>
+            Welcome back, {{ session["user_name"] }}! 🌸
+        </h1>
+
+        <p>
+            Plan your day, manage your studies and keep your life organized.
+        </p>
+
+    </div>
+
+
+    <!-- STAT CARDS -->
+
+    <div class="stats">
+
+
+        <!-- TASKS -->
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📝
+            </div>
+
+            <h3>
+                Tasks Today
+            </h3>
+
+            <p>
+                {{ tasks_today }}
+            </p>
+
+        </div>
+
+
+        <!-- STUDY -->
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📚
+            </div>
+
+            <h3>
+                Study Tasks
+            </h3>
+
+            <p>
+                {{ study_today }}
+            </p>
+
+        </div>
+
+
+        <!-- EXPENSE -->
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                💰
+            </div>
+
+            <h3>
+                Today's Expense
+            </h3>
+
+            <p>
+                ₹{{ "%.0f"|format(today_expense) }}
+            </p>
+
+        </div>
+
+
+        <!-- PROGRESS -->
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📊
+            </div>
+
+            <h3>
+                Daily Progress
+            </h3>
+
+            <p>
+                {{ progress }}%
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- FEATURES -->
+
+    <div class="section-title">
+
+        <h2>
+            🌷 MyLife Features
+        </h2>
+
+        <p>
+            Manage everything from one place.
+        </p>
+
+    </div>
+
+
+    <div class="features">
+
+
+        <!-- TODO -->
+
+        <a
+            href="{{ url_for('todo') }}"
+            class="feature-card"
+        >
+
+            <div class="feature-icon">
+                📝
+            </div>
+
+            <h3>
+                To-Do List
+            </h3>
+
+            <p>
+                Add, complete and manage your daily tasks.
+            </p>
+
+        </a>
+
+
+        <!-- STUDY -->
+
+        <a
+            href="{{ url_for('study') }}"
+            class="feature-card"
+        >
+
+            <div class="feature-icon">
+                📚
+            </div>
+
+            <h3>
+                Study Planner
+            </h3>
+
+            <p>
+                Plan your subjects, topics, dates and study time.
+            </p>
+
+        </a>
+
+
+        <!-- ASSIGNMENTS -->
+
+        <a
+            href="{{ url_for('assignments') }}"
+            class="feature-card"
+        >
+
+            <div class="feature-icon">
+                📌
+            </div>
+
+            <h3>
+                Assignments
+            </h3>
+
+            <p>
+                Keep track of your college assignments and deadlines.
+            </p>
+
+        </a>
+
+
+        <!-- EXPENSE -->
+
+        <a
+            href="{{ url_for('expenses') }}"
+            class="feature-card"
+        >
+
+            <div class="feature-icon">
+                💰
+            </div>
+
+            <h3>
+                Expense Manager
+            </h3>
+
+            <p>
+                Record your expenses and manage your budget.
+            </p>
+
+        </a>
+
+
+        <!-- SHOPPING -->
+
+        <a
+            href="{{ url_for('shopping') }}"
+            class="feature-card"
+        >
+
+            <div class="feature-icon">
+                🛍️
+            </div>
+
+            <h3>
+                Shopping List
+            </h3>
+
+            <p>
+                Manage shopping items, quantity, price and priority.
+            </p>
+
+        </a>
+
+
+        <!-- CALENDAR -->
+
+        <a
+            href="{{ url_for('calendar') }}"
+            class="feature-card"
+        >
+
+            <div class="feature-icon">
+                📅
+            </div>
+
+            <h3>
+                Calendar
+            </h3>
+
+            <p>
+                View your tasks, studies, assignments and plans by date.
+            </p>
+
+        </a>
+
+
+    </div>
+
+
+    <!-- PROGRESS -->
+
+    <div class="progress-box">
+
+        <div class="progress-top">
+
+            <h3>
+                🌱 Your Overall Progress
+            </h3>
+
+            <span class="progress-percent">
+                {{ progress }}%
+            </span>
+
+        </div>
+
+
+        <div class="progress-bar">
+
+            <div class="progress-fill"></div>
+
+        </div>
+
+
+        <div class="progress-text">
+
+            Keep completing your tasks and make progress every day ✨
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

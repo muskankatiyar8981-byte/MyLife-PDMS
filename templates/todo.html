@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MyLife - To-Do List</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Poppins,sans-serif;
+    background:linear-gradient(135deg,#eeeeee,#f8f6ff);
+    color:#333;
+    min-height:100vh;
+}
+
+.navbar{
+    background:rgba(255,255,255,.95);
+    padding:18px 7%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 4px 15px rgba(0,0,0,.06);
+}
+
+.logo{
+    font-size:25px;
+    font-weight:700;
+    color:#7667c7;
+}
+
+.container{
+    width:90%;
+    max-width:1000px;
+    margin:35px auto;
+}
+
+.back{
+    text-decoration:none;
+    color:#7667c7;
+    font-weight:600;
+}
+
+h1{
+    margin-bottom:5px;
+}
+
+.subtitle{
+    color:#777;
+    margin-bottom:25px;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:22px;
+    box-shadow:0 8px 25px rgba(0,0,0,.07);
+    margin-bottom:25px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr auto;
+    gap:12px;
+}
+
+input{
+    width:100%;
+    padding:13px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    font-family:inherit;
+}
+
+button{
+    border:0;
+    padding:13px 18px;
+    border-radius:12px;
+    background:#7667c7;
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.notification-box{
+    background:#eeeaff;
+    padding:16px;
+    border-radius:15px;
+    margin-bottom:20px;
+    color:#5d5295;
+}
+
+.status{
+    margin-left:12px;
+    color:#666;
+    font-size:13px;
+}
+
+.task{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:17px;
+    background:#f8f7ff;
+    border-radius:15px;
+    margin-bottom:12px;
+}
+
+.task.completed .task-title{
+    text-decoration:line-through;
+    color:#999;
+}
+
+.task-title{
+    font-weight:600;
+}
+
+.task-time{
+    font-size:12px;
+    color:#777;
+    margin-top:5px;
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+}
+
+.actions a{
+    text-decoration:none;
+    padding:8px 12px;
+    border-radius:10px;
+    font-size:13px;
+    font-weight:600;
+}
+
+.complete{
+    background:#e8e4ff;
+    color:#6555b8;
+}
+
+.delete{
+    background:#ffe5e5;
+    color:#c44;
+}
+
+.empty{
+    text-align:center;
+    color:#888;
+    padding:25px;
+}
+
+@media(max-width:750px){
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .task{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<nav class="navbar">
+
+    <div class="logo">
+        💜 MyLife
+    </div>
+
+    <div>
+        Hi, {{ name }}
+    </div>
+
+</nav>
+
+
+<div class="container">
+
+
+<a href="{{ url_for('dashboard') }}" class="back">
+    ← Back to Dashboard
+</a>
+
+
+<h1>📝 My To-Do List</h1>
+
+<p class="subtitle">
+    Plan your tasks and get reminders.
+</p>
+
+
+<div class="notification-box">
+
+    🔔 First click
+    <b>Enable Notifications</b>
+    and select <b>Allow</b>.
+
+    <br><br>
+
+    Voice reminder will speak in normal English.
+
+</div>
+
+
+<div class="card">
+
+    <button onclick="enableNotifications()">
+        🔔 Enable Notifications
+    </button>
+
+    <span id="notificationStatus" class="status"></span>
+
+</div>
+
+
+<div class="card">
+
+
+<form
+    action="{{ url_for('add_task') }}"
+    method="POST"
+>
+
+
+<div class="form-grid">
+
+
+<input
+    type="text"
+    name="title"
+    placeholder="Enter your task..."
+    required
+>
+
+
+<input
+    type="date"
+    name="task_date"
+    required
+>
+
+
+<input
+    type="time"
+    name="task_time"
+    required
+>
+
+
+<button type="submit">
+    + Add Task
+</button>
+
+
+</div>
+
+</form>
+
+</div>
+
+
+<div class="card">
+
+<h2>📋 Your Tasks</h2>
+
+
+{% if tasks %}
+
+
+{% for task in tasks %}
+
+
+<div class="task {% if task['completed'] %}completed{% endif %}">
+
+
+<div>
+
+<div class="task-title">
+
+{{ task['title'] }}
+
+</div>
+
+
+<div class="task-time">
+
+📅 {{ task['task_date'] }}
+
+&nbsp; | &nbsp;
+
+⏰ {{ task['task_time'] }}
+
+</div>
+
+
+</div>
+
+
+<div class="actions">
+
+
+<a
+href="{{ url_for('toggle_task', task_id=task['id']) }}"
+class="complete"
+>
+
+{% if task['completed'] %}
+
+↩ Undo
+
+{% else %}
+
+✓ Complete
+
+{% endif %}
+
+</a>
+
+
+<a
+href="{{ url_for('delete_task', task_id=task['id']) }}"
+class="delete"
+>
+
+🗑 Delete
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+{% endfor %}
+
+
+{% else %}
+
+
+<div class="empty">
+
+No tasks added yet 🌸
+
+</div>
+
+
+{% endif %}
+
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+// ================================
+// NOTIFICATION PERMISSION
+// ================================
+
+function enableNotifications(){
+
+    if(!("Notification" in window)){
+
+        alert(
+            "This browser does not support notifications."
+        );
+
+        return;
+    }
+
+
+    Notification.requestPermission().then(function(permission){
+
+        const status =
+            document.getElementById(
+                "notificationStatus"
+            );
+
+
+        status.innerText =
+            "Permission: " + permission;
+
+
+        if(permission === "granted"){
+
+            new Notification(
+                "MyLife",
+                {
+                    body:
+                    "Notifications are enabled successfully."
+                }
+            );
+
+            // Test voice
+            speak(
+                "MyLife notifications are enabled."
+            );
+
+        }
+
+    });
+
+}
+
+
+// ================================
+// VOICE
+// ================================
+
+function speak(message){
+
+    if(!("speechSynthesis" in window)){
+
+        return;
+
+    }
+
+
+    window.speechSynthesis.cancel();
+
+
+    const speech =
+        new SpeechSynthesisUtterance(
+            message
+        );
+
+
+    speech.lang = "en-US";
+
+    speech.rate = 0.9;
+
+    speech.pitch = 1;
+
+    speech.volume = 1;
+
+
+    window.speechSynthesis.speak(
+        speech
+    );
+
+}
+
+
+// ================================
+// SHOW NOTIFICATION
+// ================================
+
+function showNotification(
+    title,
+    message
+){
+
+    if(
+        "Notification" in window &&
+        Notification.permission === "granted"
+    ){
+
+        new Notification(
+            title,
+            {
+                body:message
+            }
+        );
+
+    }
+
+}
+
+
+// ================================
+// CHECK TASKS
+// ================================
+
+function checkTaskReminders(){
+
+    const now =
+        new Date();
+
+
+    const currentDate =
+        now.getFullYear()
+        + "-"
+        + String(
+            now.getMonth() + 1
+        ).padStart(2,"0")
+        + "-"
+        + String(
+            now.getDate()
+        ).padStart(2,"0");
+
+
+    const currentTime =
+        String(
+            now.getHours()
+        ).padStart(2,"0")
+        + ":"
+        + String(
+            now.getMinutes()
+        ).padStart(2,"0");
+
+
+    const tasks = [
+
+    {% for task in tasks %}
+
+        {% if not task['completed'] %}
+
+        {
+
+            id:
+            "{{ task['id'] }}",
+
+            title:
+            {{ task['title']|tojson }},
+
+            date:
+            "{{ task['task_date'] }}",
+
+            time:
+            "{{ task['task_time'] }}"
+
+        },
+
+        {% endif %}
+
+    {% endfor %}
+
+    ];
+
+
+    tasks.forEach(
+        function(task){
+
+            if(
+                task.date === currentDate &&
+                task.time === currentTime
+            ){
+
+                const key =
+                    "todo_reminder_"
+                    + task.id
+                    + "_"
+                    + currentDate
+                    + "_"
+                    + currentTime;
+
+
+                if(
+                    !localStorage.getItem(key)
+                ){
+
+                    const message =
+                        "Reminder. You have a task to complete: "
+                        + task.title
+                        + ".";
+
+
+                    speak(message);
+
+
+                    showNotification(
+                        "MyLife Task Reminder",
+                        message
+                    );
+
+
+                    localStorage.setItem(
+                        key,
+                        "done"
+                    );
+
+                }
+
+            }
+
+        }
+    );
+
+}
+
+
+// Check immediately
+checkTaskReminders();
+
+
+// Check every 10 seconds
+setInterval(
+    checkTaskReminders,
+    10000
+);
+
+
+</script>
+
+
+</body>
+
+</html>

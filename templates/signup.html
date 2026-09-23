@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MyLife - Sign Up</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #eeeeF2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: #3d3b46;
+        }
+
+        /* Background */
+
+        .bg-circle {
+            position: fixed;
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .circle-one {
+            width: 300px;
+            height: 300px;
+            background: #ddd5f5;
+            top: -120px;
+            left: -80px;
+        }
+
+        .circle-two {
+            width: 260px;
+            height: 260px;
+            background: #e4d9ed;
+            bottom: -100px;
+            right: -70px;
+        }
+
+        /* Main box */
+
+        .container {
+            width: 92%;
+            max-width: 1080px;
+            min-height: 650px;
+            display: flex;
+            background: #ffffff;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 25px 70px rgba(60, 58, 75, 0.16);
+        }
+
+        /* LEFT */
+
+        .left {
+            width: 50%;
+            padding: 60px;
+            position: relative;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: linear-gradient(
+                145deg,
+                #77727f,
+                #91889d,
+                #aa8fc1
+            );
+        }
+
+        .logo {
+            position: absolute;
+            top: 42px;
+            left: 60px;
+            font-size: 27px;
+            font-weight: bold;
+        }
+
+        .tag {
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.75;
+            margin-bottom: 18px;
+        }
+
+        .left h1 {
+            font-size: 48px;
+            line-height: 1.12;
+            margin-bottom: 22px;
+        }
+
+        .left p {
+            max-width: 410px;
+            font-size: 16px;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.88);
+        }
+
+        /* Stickers */
+
+        .sticker {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.92);
+            box-shadow: 0 12px 25px rgba(45,42,55,0.16);
+            color: #6d6375;
+        }
+
+        .sticker-star {
+            width: 65px;
+            height: 65px;
+            font-size: 28px;
+            top: 100px;
+            right: 70px;
+            transform: rotate(10deg);
+        }
+
+        .sticker-heart {
+            width: 58px;
+            height: 58px;
+            font-size: 25px;
+            bottom: 95px;
+            right: 90px;
+            transform: rotate(-8deg);
+        }
+
+        .sticker-note {
+            position: absolute;
+            bottom: 45px;
+            left: 60px;
+            padding: 11px 18px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            font-size: 13px;
+        }
+
+        /* RIGHT */
+
+        .right {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px;
+            background: #fafafa;
+        }
+
+        .form-card {
+            width: 100%;
+            max-width: 390px;
+        }
+
+        .form-card h2 {
+            font-size: 31px;
+            color: #383540;
+            margin-bottom: 9px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #92909a;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 19px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #55515d;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            height: 53px;
+            padding: 0 16px;
+            border: 1px solid #dedde2;
+            border-radius: 13px;
+            background: #ffffff;
+            color: #3c3944;
+            font-size: 14px;
+            outline: none;
+            transition: 0.25s;
+        }
+
+        input::placeholder {
+            color: #aaa8b0;
+        }
+
+        input:focus {
+            border-color: #9a82b4;
+            box-shadow: 0 0 0 4px rgba(154,130,180,0.10);
+        }
+
+        .signup-btn {
+            width: 100%;
+            height: 54px;
+            margin-top: 7px;
+            border: none;
+            border-radius: 14px;
+            background: #76617f;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 9px 20px rgba(91,77,100,0.20);
+            transition: 0.25s;
+        }
+
+        .signup-btn:hover {
+            background: #67536f;
+            transform: translateY(-2px);
+            box-shadow: 0 13px 25px rgba(91,77,100,0.27);
+        }
+
+        .bottom-text {
+            text-align: center;
+            margin-top: 23px;
+            color: #96939d;
+            font-size: 14px;
+        }
+
+        .bottom-text a {
+            color: #72547e;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .bottom-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 800px) {
+
+            body {
+                overflow: auto;
+                padding: 25px 0;
+            }
+
+            .container {
+                flex-direction: column;
+                min-height: auto;
+            }
+
+            .left,
+            .right {
+                width: 100%;
+            }
+
+            .left {
+                min-height: 390px;
+                padding: 40px;
+            }
+
+            .logo {
+                top: 35px;
+                left: 40px;
+            }
+
+            .left h1 {
+                font-size: 38px;
+            }
+
+            .sticker-star {
+                right: 35px;
+                top: 90px;
+            }
+
+            .sticker-heart {
+                right: 45px;
+                bottom: 65px;
+            }
+
+            .sticker-note {
+                left: 40px;
+                bottom: 30px;
+            }
+
+            .right {
+                padding: 40px 25px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="bg-circle circle-one"></div>
+    <div class="bg-circle circle-two"></div>
+
+
+    <div class="container">
+
+        <!-- LEFT SIDE -->
+
+        <div class="left">
+
+            <div class="logo">
+                ✦ MyLife
+            </div>
+
+            <div class="tag">
+                Your personal space
+            </div>
+
+            <h1>
+                Start your<br>
+                journey.
+            </h1>
+
+            <p>
+                Create your MyLife account and keep
+                your personal digital journey organized
+                in one simple place.
+            </p>
+
+
+            <!-- Stickers -->
+
+            <div class="sticker sticker-star">
+                ✦
+            </div>
+
+            <div class="sticker sticker-heart">
+                ♡
+            </div>
+
+            <div class="sticker-note">
+                ✨ Simple • Personal • Organized
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT SIDE -->
+
+        <div class="right">
+
+            <div class="form-card">
+
+                <h2>
+                    Create Account
+                </h2>
+
+                <p class="subtitle">
+                    Create your account and get started.
+                </p>
+
+
+                <form method="POST">
+
+                    <div class="form-group">
+
+                        <label>
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Enter your full name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Create a password"
+                            required
+                        >
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="signup-btn"
+                    >
+                        Create Account →
+                    </button>
+
+                </form>
+
+
+                <div class="bottom-text">
+
+                    Already have an account?
+
+                    <a href="{{ url_for('login') }}">
+                        Login
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

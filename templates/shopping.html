@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shopping List - MyLife</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(135deg, #f7f5ff, #eeeeff);
+            color: #45415a;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 18px rgba(80, 70, 120, 0.08);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 700;
+            color: #6658a8;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: #6658a8;
+            font-weight: 600;
+            background: #f0edff;
+            padding: 9px 15px;
+            border-radius: 12px;
+        }
+
+        /* CONTAINER */
+
+        .container {
+            width: 90%;
+            max-width: 1150px;
+            margin: 35px auto;
+        }
+
+        .heading {
+            margin-bottom: 25px;
+        }
+
+        .heading h1 {
+            margin: 0;
+            font-size: 30px;
+            color: #50477c;
+        }
+
+        .heading p {
+            margin-top: 7px;
+            color: #888;
+        }
+
+        /* SUMMARY */
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 22px;
+            padding: 23px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(75, 65, 120, 0.08);
+        }
+
+        .summary-card h3 {
+            margin: 0;
+            color: #777;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .summary-card p {
+            margin: 10px 0 0;
+            font-size: 25px;
+            font-weight: 700;
+            color: #6658ff;
+        }
+
+        /* CARD */
+
+        .card {
+            background: white;
+            border-radius: 25px;
+            padding: 28px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(75, 65, 120, 0.08);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #514875;
+            font-size: 21px;
+        }
+
+        /* FORM */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #625b76;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 13px 15px;
+            border: 1px solid #dedbea;
+            border-radius: 13px;
+            background: #faf9fd;
+            font-family: "Poppins", sans-serif;
+            color: #4d4860;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #9c8ed0;
+            background: white;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .add-btn {
+            border: none;
+            background: linear-gradient(135deg, #8e80c9, #6f62b2);
+            color: white;
+            padding: 13px 24px;
+            border-radius: 13px;
+            font-family: "Poppins", sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .add-btn:hover {
+            opacity: 0.9;
+        }
+
+        .cancel-btn {
+            text-decoration: none;
+            background: #eeeaf7;
+            color: #665b82;
+            padding: 13px 20px;
+            border-radius: 13px;
+            font-weight: 600;
+        }
+
+        /* SHOPPING ITEM */
+
+        .shopping-item {
+            border: 1px solid #eeeaf5;
+            border-radius: 18px;
+            padding: 18px;
+            margin-top: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+            background: #fcfbff;
+            transition: 0.2s;
+        }
+
+        .shopping-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(75, 65, 120, 0.06);
+        }
+
+        .shopping-item.purchased {
+            opacity: 0.6;
+        }
+
+        .shopping-item.purchased .item-name {
+            text-decoration: line-through;
+        }
+
+        .item-name {
+            font-size: 17px;
+            font-weight: 700;
+            color: #514875;
+        }
+
+        .item-details {
+            margin-top: 7px;
+            font-size: 12px;
+            color: #888;
+            line-height: 1.8;
+        }
+
+        .priority {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 5px 11px;
+            border-radius: 20px;
+            background: #eeeafa;
+            color: #665b82;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* ACTIONS */
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .action-btn {
+            text-decoration: none;
+            padding: 9px 13px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .purchase-btn {
+            background: #e7f4ea;
+            color: #4f7b58;
+        }
+
+        .edit-btn {
+            background: #eeeafa;
+            color: #665b82;
+        }
+
+        .delete-btn {
+            background: #fae8e8;
+            color: #995e5e;
+        }
+
+        /* EMPTY */
+
+        .empty {
+            text-align: center;
+            padding: 40px 10px;
+            color: #999;
+        }
+
+        .empty-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 850px) {
+
+            .summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .shopping-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .actions {
+                justify-content: flex-start;
+            }
+
+        }
+
+        @media (max-width: 550px) {
+
+            .navbar {
+                padding: 15px 4%;
+            }
+
+            .container {
+                width: 94%;
+                margin-top: 25px;
+            }
+
+            .heading h1 {
+                font-size: 25px;
+            }
+
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        💜 MyLife
+    </div>
+
+    <a href="{{ url_for('dashboard') }}" class="back-btn">
+        ← Dashboard
+    </a>
+
+</nav>
+
+
+<div class="container">
+
+
+    <!-- HEADING -->
+
+    <div class="heading">
+
+        <h1>🛍️ Shopping List</h1>
+
+        <p>
+            Plan your shopping and keep track of what you need.
+        </p>
+
+    </div>
+
+
+    <!-- SUMMARY -->
+
+    <div class="summary">
+
+        <div class="summary-card">
+
+            <h3>Total Items</h3>
+
+            <p>
+                {{ total_items }}
+            </p>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h3>Pending</h3>
+
+            <p>
+                {{ pending_items }}
+            </p>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h3>Purchased</h3>
+
+            <p>
+                {{ purchased_items }}
+            </p>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h3>Estimated Cost</h3>
+
+            <p>
+                ₹{{ "%.2f"|format(estimated_cost) }}
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ADD / EDIT CARD -->
+
+    <div class="card">
+
+        {% if edit_item %}
+
+            <h2>✏️ Edit Shopping Item</h2>
+
+            <form
+                method="POST"
+                action="{{ url_for('update_shopping', item_id=edit_item['id']) }}"
+            >
+
+        {% else %}
+
+            <h2>➕ Add Shopping Item</h2>
+
+            <form
+                method="POST"
+                action="{{ url_for('add_shopping') }}"
+            >
+
+        {% endif %}
+
+
+            <div class="form-grid">
+
+
+                <!-- ITEM NAME -->
+
+                <div class="form-group">
+
+                    <label>
+                        Item Name
+                    </label>
+
+                    <input
+                        type="text"
+                        name="item_name"
+                        placeholder="e.g. Notebook"
+                        value="{{ edit_item['item_name'] if edit_item else '' }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- CATEGORY -->
+
+                <div class="form-group">
+
+                    <label>
+                        Category
+                    </label>
+
+                    <select name="category" required>
+
+                        <option value="">
+                            Select Category
+                        </option>
+
+                        <option value="Grocery"
+                            {% if edit_item and edit_item['category'] == 'Grocery' %}
+                                selected
+                            {% endif %}
+                        >
+                            Grocery
+                        </option>
+
+                        <option value="Study"
+                            {% if edit_item and edit_item['category'] == 'Study' %}
+                                selected
+                            {% endif %}
+                        >
+                            Study
+                        </option>
+
+                        <option value="Personal"
+                            {% if edit_item and edit_item['category'] == 'Personal' %}
+                                selected
+                            {% endif %}
+                        >
+                            Personal
+                        </option>
+
+                        <option value="Clothes"
+                            {% if edit_item and edit_item['category'] == 'Clothes' %}
+                                selected
+                            {% endif %}
+                        >
+                            Clothes
+                        </option>
+
+                        <option value="Electronics"
+                            {% if edit_item and edit_item['category'] == 'Electronics' %}
+                                selected
+                            {% endif %}
+                        >
+                            Electronics
+                        </option>
+
+                        <option value="Other"
+                            {% if edit_item and edit_item['category'] == 'Other' %}
+                                selected
+                            {% endif %}
+                        >
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- QUANTITY -->
+
+                <div class="form-group">
+
+                    <label>
+                        Quantity
+                    </label>
+
+                    <input
+                        type="number"
+                        name="quantity"
+                        min="1"
+                        value="{{ edit_item['quantity'] if edit_item else 1 }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PRICE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Approx. Price per Item (₹)
+                    </label>
+
+                    <input
+                        type="number"
+                        name="price"
+                        min="0"
+                        step="0.01"
+                        placeholder="e.g. 200"
+                        value="{{ edit_item['price'] if edit_item else '' }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PRIORITY -->
+
+                <div class="form-group">
+
+                    <label>
+                        Priority
+                    </label>
+
+                    <select name="priority" required>
+
+                        <option value="High"
+                            {% if edit_item and edit_item['priority'] == 'High' %}
+                                selected
+                            {% endif %}
+                        >
+                            High
+                        </option>
+
+                        <option value="Medium"
+                            {% if (edit_item and edit_item['priority'] == 'Medium') or not edit_item %}
+                                selected
+                            {% endif %}
+                        >
+                            Medium
+                        </option>
+
+                        <option value="Low"
+                            {% if edit_item and edit_item['priority'] == 'Low' %}
+                                selected
+                            {% endif %}
+                        >
+                            Low
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- DATE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Shopping Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="shopping_date"
+                        value="{{ edit_item['shopping_date'] if edit_item else '' }}"
+                        required
+                    >
+
+                </div>
+
+
+            </div>
+
+
+            <div class="buttons">
+
+                <button
+                    type="submit"
+                    class="add-btn"
+                >
+
+                    {% if edit_item %}
+                        ✏️ Update Item
+                    {% else %}
+                        ➕ Add Shopping Item
+                    {% endif %}
+
+                </button>
+
+
+                {% if edit_item %}
+
+                    <a
+                        href="{{ url_for('shopping') }}"
+                        class="cancel-btn"
+                    >
+                        Cancel
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+
+    <!-- SHOPPING LIST -->
+
+    <div class="card">
+
+        <h2>
+            🛒 My Shopping Items
+        </h2>
+
+
+        {% if items %}
+
+
+            {% for item in items %}
+
+
+                <div
+                    class="shopping-item
+                    {% if item['purchased'] %}
+                        purchased
+                    {% endif %}"
+                >
+
+
+                    <div>
+
+
+                        <div class="item-name">
+
+                            {% if item['purchased'] %}
+                                ✅
+                            {% else %}
+                                🛍️
+                            {% endif %}
+
+                            {{ item['item_name'] }}
+
+                        </div>
+
+
+                        <div class="item-details">
+
+                            📂 {{ item['category'] }}
+
+                            &nbsp; • &nbsp;
+
+                            📦 Quantity: {{ item['quantity'] }}
+
+                            &nbsp; • &nbsp;
+
+                            💰 ₹{{ "%.2f"|format(item['price']) }} each
+
+                            &nbsp; • &nbsp;
+
+                            🧾 Total: ₹{{ "%.2f"|format(item['price'] * item['quantity']) }}
+
+                            <br>
+
+                            📅 {{ item['shopping_date'] }}
+
+                        </div>
+
+
+                        <span class="priority">
+
+                            {{ item['priority'] }} Priority
+
+                        </span>
+
+
+                    </div>
+
+
+                    <div class="actions">
+
+
+                        <!-- PURCHASE -->
+
+                        <a
+                            href="{{ url_for('toggle_shopping', item_id=item['id']) }}"
+                            class="action-btn purchase-btn"
+                        >
+
+                            {% if item['purchased'] %}
+                                ↩ Mark Pending
+                            {% else %}
+                                ✓ Mark Purchased
+                            {% endif %}
+
+                        </a>
+
+
+                        <!-- EDIT -->
+
+                        <a
+                            href="{{ url_for('edit_shopping', item_id=item['id']) }}"
+                            class="action-btn edit-btn"
+                        >
+                            ✏️ Edit
+                        </a>
+
+
+                        <!-- DELETE -->
+
+                        <a
+                            href="{{ url_for('delete_shopping', item_id=item['id']) }}"
+                            class="action-btn delete-btn"
+                            onclick="return confirm('Delete this shopping item?')"
+                        >
+                            🗑️ Delete
+                        </a>
+
+
+                    </div>
+
+
+                </div>
+
+
+            {% endfor %}
+
+
+        {% else %}
+
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    🛍️
+                </div>
+
+                <div>
+                    No shopping items yet.
+                </div>
+
+            </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

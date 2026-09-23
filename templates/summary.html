@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MyLife Summary</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            background: #f4f2f7;
+            color: #51496b;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            background: white;
+            padding: 17px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 700;
+            color: #7567a8;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: #665b82;
+            background: #eeeaf7;
+            padding: 9px 17px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .back-btn:hover {
+            background: #e2ddf0;
+        }
+
+        /* CONTAINER */
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+
+        .heading {
+            margin-bottom: 25px;
+        }
+
+        .heading h1 {
+            margin: 0;
+            font-size: 30px;
+            color: #51496b;
+        }
+
+        .heading p {
+            margin-top: 7px;
+            color: #888;
+            font-size: 14px;
+        }
+
+        /* OVERVIEW */
+
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .overview-card {
+            background: white;
+            padding: 20px 12px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .overview-card .icon {
+            font-size: 27px;
+        }
+
+        .overview-card h3 {
+            font-size: 12px;
+            color: #888;
+            margin: 8px 0 4px;
+            font-weight: 500;
+        }
+
+        .overview-card p {
+            font-size: 23px;
+            font-weight: 700;
+            color: #7567a8;
+            margin: 0;
+        }
+
+        /* SECTIONS */
+
+        .section {
+            background: white;
+            padding: 24px;
+            border-radius: 22px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            color: #51496b;
+            font-size: 20px;
+        }
+
+        .count {
+            background: #eeeaf7;
+            color: #665b82;
+            padding: 5px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* LIST ITEMS */
+
+        .item {
+            background: #fcfbfd;
+            border: 1px solid #eeeaf4;
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-top: 10px;
+        }
+
+        .item.completed {
+            opacity: 0.55;
+        }
+
+        .item.completed .title {
+            text-decoration: line-through;
+        }
+
+        .title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #51496b;
+        }
+
+        .info {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+            line-height: 1.8;
+        }
+
+        .badge {
+            display: inline-block;
+            margin-top: 7px;
+            padding: 4px 10px;
+            border-radius: 15px;
+            background: #eeeaf7;
+            color: #665b82;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .expense-amount {
+            margin-top: 6px;
+            color: #8b5d5d;
+            font-weight: 700;
+        }
+
+        .shopping-amount {
+            margin-top: 6px;
+            color: #527b5c;
+            font-weight: 700;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 22px;
+            color: #999;
+            font-size: 13px;
+        }
+
+        /* FINANCIAL SUMMARY */
+
+        .financial {
+            background: white;
+            padding: 24px;
+            border-radius: 22px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+            margin-bottom: 30px;
+        }
+
+        .financial h2 {
+            margin-top: 0;
+            color: #51496b;
+            font-size: 20px;
+        }
+
+        .money-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid #eeeaf4;
+            font-size: 14px;
+        }
+
+        .money-row:last-child {
+            border-bottom: none;
+        }
+
+        .money-value {
+            font-weight: 700;
+            color: #7567a8;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 900px) {
+
+            .overview {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 15px 4%;
+            }
+
+            .container {
+                width: 94%;
+                margin-top: 25px;
+            }
+
+            .heading h1 {
+                font-size: 25px;
+            }
+
+            .overview {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .section,
+            .financial {
+                padding: 18px;
+            }
+
+        }
+
+        @media (max-width: 400px) {
+
+            .overview {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        💜 MyLife
+    </div>
+
+    <a
+        href="{{ url_for('dashboard') }}"
+        class="back-btn"
+    >
+        ← Dashboard
+    </a>
+
+</nav>
+
+
+<div class="container">
+
+
+    <!-- HEADING -->
+
+    <div class="heading">
+
+        <h1>📋 MyLife Summary</h1>
+
+        <p>
+            All your activities and plans in one place.
+        </p>
+
+    </div>
+
+
+    <!-- OVERVIEW CARDS -->
+
+    <div class="overview">
+
+        <div class="overview-card">
+
+            <div class="icon">📝</div>
+
+            <h3>To-Do Tasks</h3>
+
+            <p>
+                {{ task_count }}
+            </p>
+
+        </div>
+
+
+        <div class="overview-card">
+
+            <div class="icon">📚</div>
+
+            <h3>Study Plans</h3>
+
+            <p>
+                {{ study_count }}
+            </p>
+
+        </div>
+
+
+        <div class="overview-card">
+
+            <div class="icon">📌</div>
+
+            <h3>Assignments</h3>
+
+            <p>
+                {{ assignment_count }}
+            </p>
+
+        </div>
+
+
+        <div class="overview-card">
+
+            <div class="icon">💰</div>
+
+            <h3>Expenses</h3>
+
+            <p>
+                {{ expense_count }}
+            </p>
+
+        </div>
+
+
+        <div class="overview-card">
+
+            <div class="icon">🛍️</div>
+
+            <h3>Shopping</h3>
+
+            <p>
+                {{ shopping_count }}
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- TODO LIST -->
+
+    <div class="section">
+
+        <div class="section-header">
+
+            <h2>📝 To-Do List</h2>
+
+            <span class="count">
+                {{ task_count }} Tasks
+            </span>
+
+        </div>
+
+
+        {% if tasks %}
+
+            {% for task in tasks %}
+
+                <div
+                    class="item {% if task['completed'] %}completed{% endif %}"
+                >
+
+                    <div class="title">
+
+                        {% if task['completed'] %}
+                            ✅
+                        {% else %}
+                            ⬜
+                        {% endif %}
+
+                        {{ task['title'] }}
+
+                    </div>
+
+                    <div class="info">
+
+                        📅
+                        {{ task['task_date'] or 'No date' }}
+
+                        {% if task['task_time'] %}
+
+                            &nbsp; • &nbsp; ⏰
+                            {{ task['task_time'] }}
+
+                        {% endif %}
+
+                    </div>
+
+                    <span class="badge">
+
+                        {% if task['completed'] %}
+                            Completed
+                        {% else %}
+                            Pending
+                        {% endif %}
+
+                    </span>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty">
+                No To-Do tasks added yet.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- STUDY PLANNER -->
+
+    <div class="section">
+
+        <div class="section-header">
+
+            <h2>📚 Study Planner</h2>
+
+            <span class="count">
+                {{ study_count }} Plans
+            </span>
+
+        </div>
+
+
+        {% if study_plans %}
+
+            {% for plan in study_plans %}
+
+                <div
+                    class="item {% if plan['completed'] %}completed{% endif %}"
+                >
+
+                    <div class="title">
+
+                        📖
+                        {{ plan['subject'] }}
+                        — 
+                        {{ plan['topic'] }}
+
+                    </div>
+
+                    <div class="info">
+
+                        📅
+                        {{ plan['study_date'] }}
+
+                        &nbsp; • &nbsp;
+
+                        ⏰
+                        {{ plan['study_time'] }}
+
+                    </div>
+
+                    <span class="badge">
+
+                        {% if plan['completed'] %}
+                            Completed
+                        {% else %}
+                            Pending
+                        {% endif %}
+
+                    </span>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty">
+                No study plans added yet.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- ASSIGNMENTS -->
+
+    <div class="section">
+
+        <div class="section-header">
+
+            <h2>📌 Assignments</h2>
+
+            <span class="count">
+                {{ assignment_count }} Assignments
+            </span>
+
+        </div>
+
+
+        {% if assignments %}
+
+            {% for assignment in assignments %}
+
+                <div
+                    class="item {% if assignment['completed'] %}completed{% endif %}"
+                >
+
+                    <div class="title">
+
+                        📌
+                        {{ assignment['title'] }}
+
+                    </div>
+
+                    <div class="info">
+
+                        📚
+                        {{ assignment['subject'] }}
+
+                        &nbsp; • &nbsp;
+
+                        📅
+                        {{ assignment['due_date'] }}
+
+                        {% if assignment['due_time'] %}
+
+                            &nbsp; • &nbsp;
+
+                            ⏰
+                            {{ assignment['due_time'] }}
+
+                        {% endif %}
+
+                    </div>
+
+                    <span class="badge">
+
+                        {{ assignment['priority'] }} Priority
+
+                    </span>
+
+                    <br>
+
+                    <span class="badge">
+
+                        {% if assignment['completed'] %}
+                            Completed
+                        {% else %}
+                            Pending
+                        {% endif %}
+
+                    </span>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty">
+                No assignments added yet.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- EXPENSES -->
+
+    <div class="section">
+
+        <div class="section-header">
+
+            <h2>💰 Expenses</h2>
+
+            <span class="count">
+                {{ expense_count }} Records
+            </span>
+
+        </div>
+
+
+        {% if expenses %}
+
+            {% for expense in expenses %}
+
+                <div class="item">
+
+                    <div class="title">
+
+                        💳
+                        {{ expense['title'] }}
+
+                    </div>
+
+                    <div class="info">
+
+                        📂
+                        {{ expense['category'] }}
+
+                        &nbsp; • &nbsp;
+
+                        📅
+                        {{ expense['expense_date'] }}
+
+                    </div>
+
+                    <div class="expense-amount">
+
+                        ₹{{ "%.2f"|format(expense['amount']) }}
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty">
+                No expenses added yet.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- SHOPPING -->
+
+    <div class="section">
+
+        <div class="section-header">
+
+            <h2>🛍️ Shopping List</h2>
+
+            <span class="count">
+                {{ shopping_count }} Items
+            </span>
+
+        </div>
+
+
+        {% if shopping_items %}
+
+            {% for item in shopping_items %}
+
+                <div
+                    class="item {% if item['purchased'] %}completed{% endif %}"
+                >
+
+                    <div class="title">
+
+                        {% if item['purchased'] %}
+                            ✅
+                        {% else %}
+                            🛍️
+                        {% endif %}
+
+                        {{ item['item_name'] }}
+
+                    </div>
+
+                    <div class="info">
+
+                        📂
+                        {{ item['category'] }}
+
+                        &nbsp; • &nbsp;
+
+                        📦
+                        Quantity:
+                        {{ item['quantity'] }}
+
+                        &nbsp; • &nbsp;
+
+                        📅
+                        {{ item['shopping_date'] }}
+
+                    </div>
+
+                    <div class="shopping-amount">
+
+                        ₹{{ "%.2f"|format(
+                            item['price'] * item['quantity']
+                        ) }}
+
+                    </div>
+
+                    <span class="badge">
+
+                        {{ item['priority'] }} Priority
+
+                    </span>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty">
+                No shopping items added yet.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- FINANCIAL SUMMARY -->
+
+    <div class="financial">
+
+        <h2>💵 Financial Summary</h2>
+
+
+        <div class="money-row">
+
+            <span>
+                Total Expense
+            </span>
+
+            <span class="money-value">
+
+                ₹{{ "%.2f"|format(total_expense) }}
+
+            </span>
+
+        </div>
+
+
+        <div class="money-row">
+
+            <span>
+                Estimated Shopping Cost
+            </span>
+
+            <span class="money-value">
+
+                ₹{{ "%.2f"|format(estimated_cost) }}
+
+            </span>
+
+        </div>
+
+
+        <div class="money-row">
+
+            <span>
+                Total Planned Spending
+            </span>
+
+            <span class="money-value">
+
+                ₹{{ "%.2f"|format(
+                    total_expense + estimated_cost
+                ) }}
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

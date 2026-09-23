@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Study Planner - MyLife</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f4f1f8, #e9e5ee);
+            color: #333;
+        }
+
+        .navbar {
+            background: rgba(255,255,255,0.9);
+            padding: 18px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 700;
+            color: #6f5b7e;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: #eee9f3;
+            color: #5d4b69;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .heading h1 {
+            margin-bottom: 5px;
+            color: #554461;
+        }
+
+        .heading p {
+            color: #777;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.92);
+            padding: 25px;
+            border-radius: 22px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #5d4b69;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            outline: none;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: #9b87aa;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        .add-btn {
+            width: 100%;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            background: #7b6689;
+            color: white;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .add-btn:hover {
+            background: #665373;
+        }
+
+        .notification-btn {
+            margin-top: 12px;
+            width: 100%;
+            border: none;
+            padding: 13px;
+            border-radius: 12px;
+            background: #e8e0ee;
+            color: #5d4b69;
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .notification-btn:hover {
+            background: #ddd3e5;
+        }
+
+        .study-item {
+            background: #faf9fb;
+            border: 1px solid #eee;
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .study-info h3 {
+            margin: 0 0 7px;
+            color: #554461;
+        }
+
+        .study-info p {
+            margin: 4px 0;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            text-decoration: none;
+            border: none;
+            padding: 9px 13px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .complete {
+            background: #e1f0e5;
+            color: #477053;
+        }
+
+        .delete {
+            background: #f5e1e1;
+            color: #9a5050;
+        }
+
+        .completed {
+            opacity: 0.65;
+        }
+
+        .completed h3 {
+            text-decoration: line-through;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 25px;
+            color: #888;
+        }
+
+        .reminder-info {
+            background: #f4eff7;
+            border-left: 4px solid #806b8d;
+            padding: 13px 16px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #62556b;
+        }
+
+        @media (max-width: 700px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .study-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar {
+                padding: 15px 18px;
+            }
+
+            .container {
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">💜 MyLife</div>
+    <a href="{{ url_for('dashboard') }}" class="back-btn">← Dashboard</a>
+</nav>
+
+<div class="container">
+
+    <div class="heading">
+        <h1>📚 Study Planner</h1>
+        <p>Plan your study and get reminders on time.</p>
+    </div>
+
+    <div class="card">
+
+        <h2>➕ Add Study Plan</h2>
+
+        <div class="reminder-info">
+            🔔 Add a study date and time. MyLife will check your plan and give
+            a browser notification with a normal English voice reminder.
+            Keep this page open for reminders.
+        </div>
+
+        <form action="{{ url_for('add_study') }}" method="POST">
+
+            <div class="form-grid">
+
+                <input
+                    type="text"
+                    name="subject"
+                    placeholder="Subject"
+                    required
+                >
+
+                <input
+                    type="text"
+                    name="topic"
+                    placeholder="Topic"
+                    required
+                >
+
+                <input
+                    type="date"
+                    name="study_date"
+                    id="studyDate"
+                    required
+                >
+
+                <input
+                    type="time"
+                    name="study_time"
+                    required
+                >
+
+                <div class="full">
+                    <button type="submit" class="add-btn">
+                        Add Study Plan
+                    </button>
+                </div>
+
+            </div>
+
+        </form>
+
+        <button
+            type="button"
+            class="notification-btn"
+            onclick="enableNotifications()"
+        >
+            🔔 Enable Browser Notifications
+        </button>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>📖 My Study Plans</h2>
+
+        {% if plans %}
+
+            {% for plan in plans %}
+
+            <div
+                class="study-item {% if plan['completed'] %}completed{% endif %}"
+                data-id="{{ plan['id'] }}"
+                data-subject="{{ plan['subject'] }}"
+                data-topic="{{ plan['topic'] }}"
+                data-date="{{ plan['study_date'] }}"
+                data-time="{{ plan['study_time'] }}"
+                data-completed="{{ plan['completed'] }}"
+            >
+
+                <div class="study-info">
+
+                    <h3>
+                        📘 {{ plan['subject'] }} — {{ plan['topic'] }}
+                    </h3>
+
+                    <p>
+                        📅 Date:
+                        {{ plan['study_date'] }}
+                    </p>
+
+                    <p>
+                        ⏰ Time:
+                        {{ plan['study_time'] }}
+                    </p>
+
+                    {% if plan['completed'] %}
+                        <p>✅ Completed</p>
+                    {% else %}
+                        <p>⏳ Pending</p>
+                    {% endif %}
+
+                </div>
+
+
+                <div class="actions">
+
+                    <form
+                        action="{{ url_for('toggle_study', plan_id=plan['id']) }}"
+                        method="POST"
+                    >
+                        <button
+                            type="submit"
+                            class="action-btn complete"
+                        >
+                            {% if plan['completed'] %}
+                                ↩️ Uncomplete
+                            {% else %}
+                                ✅ Complete
+                            {% endif %}
+                        </button>
+                    </form>
+
+
+                    <form
+                        action="{{ url_for('delete_study', plan_id=plan['id']) }}"
+                        method="POST"
+                        onsubmit="return confirm('Delete this study plan?');"
+                    >
+                        <button
+                            type="submit"
+                            class="action-btn delete"
+                        >
+                            🗑️ Delete
+                        </button>
+                    </form>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty">
+                📚 No study plans yet.<br>
+                Add your first study plan above.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /* --------------------------------
+       SET TODAY AS MINIMUM DATE
+    -------------------------------- */
+
+    const dateInput = document.getElementById("studyDate");
+
+    const today = new Date();
+
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+
+    const todayString = `${year}-${month}-${day}`;
+
+    dateInput.min = todayString;
+
+
+    /* --------------------------------
+       ENABLE BROWSER NOTIFICATIONS
+    -------------------------------- */
+
+    function enableNotifications() {
+
+        if (!("Notification" in window)) {
+
+            alert(
+                "Your browser does not support notifications."
+            );
+
+            return;
+        }
+
+
+        Notification.requestPermission()
+            .then(function(permission) {
+
+                if (permission === "granted") {
+
+                    new Notification("MyLife", {
+                        body: "Study reminders are now enabled."
+                    });
+
+                    speak(
+                        "Study reminders are now enabled."
+                    );
+
+                }
+
+                else if (permission === "denied") {
+
+                    alert(
+                        "Notifications are blocked. Please allow notifications from your browser settings."
+                    );
+
+                }
+
+            });
+
+    }
+
+
+    /* --------------------------------
+       VOICE REMINDER
+    -------------------------------- */
+
+    function speak(message) {
+
+        if (!("speechSynthesis" in window)) {
+            return;
+        }
+
+        window.speechSynthesis.cancel();
+
+        const speech =
+            new SpeechSynthesisUtterance(message);
+
+        speech.lang = "en-US";
+        speech.rate = 0.9;
+        speech.pitch = 1;
+
+        window.speechSynthesis.speak(speech);
+
+    }
+
+
+    /* --------------------------------
+       SHOW NOTIFICATION
+    -------------------------------- */
+
+    function showReminder(title, message) {
+
+        if (
+            "Notification" in window &&
+            Notification.permission === "granted"
+        ) {
+
+            new Notification(title, {
+                body: message,
+                icon: ""
+            });
+
+        }
+
+        speak(message);
+
+    }
+
+
+    /* --------------------------------
+       STUDY REMINDER CHECK
+    -------------------------------- */
+
+    function checkStudyReminders() {
+
+        const studyItems =
+            document.querySelectorAll(".study-item");
+
+        const now = new Date();
+
+        const currentDate =
+            `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+
+        const currentTime =
+            `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+
+
+        studyItems.forEach(function(item) {
+
+            const id =
+                item.dataset.id;
+
+            const subject =
+                item.dataset.subject;
+
+            const topic =
+                item.dataset.topic;
+
+            const studyDate =
+                item.dataset.date;
+
+            const studyTime =
+                item.dataset.time;
+
+            const completed =
+                item.dataset.completed;
+
+
+            /* Ignore completed plans */
+
+            if (completed === "1") {
+                return;
+            }
+
+
+            /* Ignore plans without date/time */
+
+            if (!studyDate || !studyTime) {
+                return;
+            }
+
+
+            /*
+                Reminder only when
+                date and time match current minute
+            */
+
+            if (
+                studyDate === currentDate &&
+                studyTime === currentTime
+            ) {
+
+                const reminderKey =
+                    `study_reminder_${id}_${studyDate}_${studyTime}`;
+
+
+                /*
+                    Prevent the same reminder
+                    from repeating every 10 seconds
+                */
+
+                if (
+                    localStorage.getItem(reminderKey)
+                    === "shown"
+                ) {
+                    return;
+                }
+
+
+                localStorage.setItem(
+                    reminderKey,
+                    "shown"
+                );
+
+
+                const message =
+                    `Reminder. It is time to study ${subject}. Your topic is ${topic}.`;
+
+
+                showReminder(
+                    "📚 MyLife Study Reminder",
+                    message
+                );
+
+            }
+
+        });
+
+    }
+
+
+    /* --------------------------------
+       CHECK EVERY 10 SECONDS
+    -------------------------------- */
+
+    checkStudyReminders();
+
+    setInterval(
+        checkStudyReminders,
+        10000
+    );
+
+
+</script>
+
+</body>
+</html>

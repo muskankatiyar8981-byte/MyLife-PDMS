@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Calendar - MyLife</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #f4f2f7;
+            color: #444;
+        }
+
+        .navbar {
+            background: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #7b6fa8;
+        }
+
+        .back {
+            text-decoration: none;
+            color: #665b82;
+            font-weight: 600;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: 35px auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: #51496b;
+        }
+
+        .header p {
+            margin: 6px 0 0;
+            color: #888;
+        }
+
+        .calendar-card {
+            background: white;
+            padding: 25px;
+            border-radius: 22px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        .calendar-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-top h2 {
+            margin: 0;
+            color: #51496b;
+        }
+
+        .month-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .month-buttons button {
+            border: none;
+            background: #eeeaf7;
+            color: #665b82;
+            padding: 9px 13px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+        }
+
+        .today-btn {
+            background: #8d80b5 !important;
+            color: white !important;
+        }
+
+        .weekdays,
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 7px;
+        }
+
+        .weekday {
+            text-align: center;
+            font-weight: 600;
+            font-size: 13px;
+            color: #888;
+            padding: 8px;
+        }
+
+        .day {
+            min-height: 110px;
+            border: 1px solid #eeeaf4;
+            border-radius: 13px;
+            padding: 9px;
+            background: #fcfbfd;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .day:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .day-number {
+            font-size: 13px;
+            font-weight: 600;
+            color: #665b82;
+            margin-bottom: 5px;
+        }
+
+        .other-month {
+            opacity: 0.35;
+        }
+
+        .today {
+            border: 2px solid #9c8fc2;
+            background: #f5f1fb;
+        }
+
+        .event {
+            font-size: 10px;
+            padding: 4px 5px;
+            margin-top: 4px;
+            border-radius: 6px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .task {
+            background: #eeeaf7;
+            color: #665b82;
+        }
+
+        .study {
+            background: #eaf3f8;
+            color: #55778b;
+        }
+
+        .assignment {
+            background: #f7eee7;
+            color: #88664e;
+        }
+
+        .expense {
+            background: #f8eaea;
+            color: #916060;
+        }
+
+        .shopping {
+            background: #e9f3eb;
+            color: #527b5c;
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .legend-item {
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .details-card {
+            margin-top: 20px;
+            background: white;
+            padding: 22px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        .details-card h3 {
+            margin-top: 0;
+            color: #51496b;
+        }
+
+        .detail-event {
+            padding: 10px 12px;
+            margin-top: 8px;
+            border-radius: 10px;
+            background: #f7f5fa;
+            font-size: 13px;
+        }
+
+        @media (max-width: 800px) {
+
+            .calendar-card {
+                padding: 15px;
+            }
+
+            .day {
+                min-height: 80px;
+                padding: 6px;
+            }
+
+            .event {
+                font-size: 8px;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .container {
+                width: 96%;
+            }
+
+            .calendar-top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .day {
+                min-height: 65px;
+            }
+
+            .event {
+                display: none;
+            }
+
+            .weekday {
+                font-size: 10px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        💜 MyLife
+    </div>
+
+    <a href="{{ url_for('dashboard') }}" class="back">
+        ← Dashboard
+    </a>
+
+</nav>
+
+
+<div class="container">
+
+    <div class="header">
+
+        <div>
+            <h1>📅 Calendar</h1>
+            <p>View your tasks, study plans, assignments, expenses and shopping plans.</p>
+        </div>
+
+    </div>
+
+
+    <div class="calendar-card">
+
+        <div class="calendar-top">
+
+            <h2 id="monthTitle"></h2>
+
+            <div class="month-buttons">
+
+                <button onclick="previousMonth()">
+                    ←
+                </button>
+
+                <button class="today-btn" onclick="goToday()">
+                    Today
+                </button>
+
+                <button onclick="nextMonth()">
+                    →
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="weekdays">
+
+            <div class="weekday">Sun</div>
+            <div class="weekday">Mon</div>
+            <div class="weekday">Tue</div>
+            <div class="weekday">Wed</div>
+            <div class="weekday">Thu</div>
+            <div class="weekday">Fri</div>
+            <div class="weekday">Sat</div>
+
+        </div>
+
+
+        <div id="calendarGrid" class="calendar-grid"></div>
+
+
+        <div class="legend">
+
+            <div class="legend-item">
+                <span class="dot task"></span>
+                Task
+            </div>
+
+            <div class="legend-item">
+                <span class="dot study"></span>
+                Study
+            </div>
+
+            <div class="legend-item">
+                <span class="dot assignment"></span>
+                Assignment
+            </div>
+
+            <div class="legend-item">
+                <span class="dot expense"></span>
+                Expense
+            </div>
+
+            <div class="legend-item">
+                <span class="dot shopping"></span>
+                Shopping
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="details-card">
+
+        <h3 id="detailsTitle">
+            📌 Select a date
+        </h3>
+
+        <div id="detailsList">
+            Click any date to see its details.
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const tasks = {{ tasks | tojson }};
+const studyPlans = {{ study_plans | tojson }};
+const assignments = {{ assignments | tojson }};
+const expenses = {{ expenses | tojson }};
+const shoppingItems = {{ shopping_items | tojson }};
+
+
+let currentDate = new Date();
+
+
+function pad(number) {
+
+    return String(number).padStart(2, "0");
+
+}
+
+
+function dateKey(year, month, day) {
+
+    return year + "-" +
+           pad(month + 1) + "-" +
+           pad(day);
+
+}
+
+
+function formatDate(dateString) {
+
+    const parts = dateString.split("-");
+
+    return parts[2] + "/" +
+           parts[1] + "/" +
+           parts[0];
+
+}
+
+
+function getEventsForDate(key) {
+
+    const events = [];
+
+
+    tasks.forEach(task => {
+
+        if (task.task_date === key) {
+
+            events.push({
+                type: "task",
+                title: "📝 " + task.title,
+                time: task.task_time || ""
+            });
+
+        }
+
+    });
+
+
+    studyPlans.forEach(plan => {
+
+        if (plan.study_date === key) {
+
+            events.push({
+                type: "study",
+                title: "📚 " + plan.subject + " - " + plan.topic,
+                time: plan.study_time || ""
+            });
+
+        }
+
+    });
+
+
+    assignments.forEach(item => {
+
+        if (item.due_date === key) {
+
+            events.push({
+                type: "assignment",
+                title: "📌 " + item.title,
+                time: item.due_time || ""
+            });
+
+        }
+
+    });
+
+
+    expenses.forEach(expense => {
+
+        if (expense.expense_date === key) {
+
+            events.push({
+                type: "expense",
+                title: "💰 " + expense.title + " ₹" + expense.amount,
+                time: ""
+            });
+
+        }
+
+    });
+
+
+    shoppingItems.forEach(item => {
+
+        if (item.shopping_date === key) {
+
+            events.push({
+                type: "shopping",
+                title: "🛍️ " + item.item_name,
+                time: ""
+            });
+
+        }
+
+    });
+
+
+    return events;
+
+}
+
+
+function renderCalendar() {
+
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+
+
+    const monthNames = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    ];
+
+
+    document.getElementById("monthTitle").innerText =
+        monthNames[month] + " " + year;
+
+
+    const grid = document.getElementById("calendarGrid");
+
+    grid.innerHTML = "";
+
+
+    const firstDay = new Date(year, month, 1).getDay();
+
+    const daysInMonth =
+        new Date(year, month + 1, 0).getDate();
+
+
+    const previousMonthDays =
+        new Date(year, month, 0).getDate();
+
+
+    const today = new Date();
+
+
+    for (let i = 0; i < 42; i++) {
+
+        const cell = document.createElement("div");
+
+        cell.className = "day";
+
+
+        let dayNumber;
+        let cellYear = year;
+        let cellMonth = month;
+
+
+        if (i < firstDay) {
+
+            dayNumber =
+                previousMonthDays - firstDay + i + 1;
+
+            cellMonth = month - 1;
+
+            if (cellMonth < 0) {
+
+                cellMonth = 11;
+                cellYear--;
+
+            }
+
+            cell.classList.add("other-month");
+
+        }
+
+        else if (i >= firstDay + daysInMonth) {
+
+            dayNumber =
+                i - firstDay - daysInMonth + 1;
+
+            cellMonth = month + 1;
+
+            if (cellMonth > 11) {
+
+                cellMonth = 0;
+                cellYear++;
+
+            }
+
+            cell.classList.add("other-month");
+
+        }
+
+        else {
+
+            dayNumber = i - firstDay + 1;
+
+        }
+
+
+        const key =
+            dateKey(
+                cellYear,
+                cellMonth,
+                dayNumber
+            );
+
+
+        if (
+            cellYear === today.getFullYear() &&
+            cellMonth === today.getMonth() &&
+            dayNumber === today.getDate()
+        ) {
+
+            cell.classList.add("today");
+
+        }
+
+
+        const numberDiv =
+            document.createElement("div");
+
+        numberDiv.className = "day-number";
+
+        numberDiv.innerText = dayNumber;
+
+        cell.appendChild(numberDiv);
+
+
+        const events =
+            getEventsForDate(key);
+
+
+        events.slice(0, 4).forEach(event => {
+
+            const eventDiv =
+                document.createElement("div");
+
+            eventDiv.className =
+                "event " + event.type;
+
+            eventDiv.innerText =
+                event.title;
+
+            cell.appendChild(eventDiv);
+
+        });
+
+
+        if (events.length > 4) {
+
+            const more =
+                document.createElement("div");
+
+            more.className = "event";
+
+            more.innerText =
+                "+" + (events.length - 4) + " more";
+
+            cell.appendChild(more);
+
+        }
+
+
+        cell.onclick = function() {
+
+            showDetails(key);
+
+        };
+
+
+        grid.appendChild(cell);
+
+    }
+
+}
+
+
+function showDetails(key) {
+
+    const detailsTitle =
+        document.getElementById("detailsTitle");
+
+    const detailsList =
+        document.getElementById("detailsList");
+
+
+    detailsTitle.innerText =
+        "📌 " + formatDate(key);
+
+
+    const events =
+        getEventsForDate(key);
+
+
+    detailsList.innerHTML = "";
+
+
+    if (events.length === 0) {
+
+        detailsList.innerHTML =
+            '<div class="detail-event">No events for this date.</div>';
+
+        return;
+
+    }
+
+
+    events.forEach(event => {
+
+        const div =
+            document.createElement("div");
+
+        div.className = "detail-event";
+
+        div.innerText =
+            event.title +
+            (event.time ? " • " + event.time : "");
+
+        detailsList.appendChild(div);
+
+    });
+
+}
+
+
+function previousMonth() {
+
+    currentDate.setMonth(
+        currentDate.getMonth() - 1
+    );
+
+    renderCalendar();
+
+}
+
+
+function nextMonth() {
+
+    currentDate.setMonth(
+        currentDate.getMonth() + 1
+    );
+
+    renderCalendar();
+
+}
+
+
+function goToday() {
+
+    currentDate = new Date();
+
+    renderCalendar();
+
+}
+
+
+renderCalendar();
+
+</script>
+
+</body>
+
+</html>
