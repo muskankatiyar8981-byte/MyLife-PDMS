@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Expense Manager - MyLife</title>
+    <title>MyLife - Expenses</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,320 +12,332 @@
     <style>
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f3f1ff, #f9f9fc);
-            color: #333;
+            font-family: "Poppins", sans-serif;
+            background: #eeeeF2;
+            color: #292633;
+            min-height: 100vh;
         }
 
         .navbar {
-            background: white;
-            padding: 18px 7%;
+            background: #ffffff;
+            padding: 16px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+            box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         .logo {
-            font-size: 24px;
+            color: #7656a8;
+            font-size: 25px;
             font-weight: 700;
-            color: #6c63ff;
+            text-decoration: none;
         }
 
-        .back-btn {
-            text-decoration: none;
-            background: #6c63ff;
-            color: white;
-            padding: 10px 18px;
-            border-radius: 12px;
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .welcome {
+            color: #625d6b;
             font-size: 14px;
         }
 
+        .logout {
+            text-decoration: none;
+            color: white;
+            background: #7656a8;
+            padding: 9px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
         .container {
-            width: 86%;
-            max-width: 1200px;
+            width: 92%;
+            max-width: 1150px;
             margin: 35px auto;
         }
 
-        .page-title {
-            text-align: center;
-            margin-bottom: 30px;
+        .back {
+            display: inline-block;
+            text-decoration: none;
+            color: #7656a8;
+            font-weight: 600;
+            margin-bottom: 18px;
         }
 
-        .page-title h1 {
-            margin: 0;
+        .heading {
+            margin-bottom: 25px;
+        }
+
+        .heading h1 {
             font-size: 30px;
-            color: #4d477d;
+            color: #302b3a;
         }
 
-        .page-title p {
-            color: #777;
-            margin-top: 8px;
+        .heading p {
+            color: #77717f;
+            margin-top: 5px;
         }
 
-        /* ================= SUMMARY CARDS ================= */
-
-        .summary-cards {
+        .cards {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .summary-card {
-            background: white;
-            padding: 24px 18px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-            transition: 0.3s;
-        }
-
-        .summary-card:hover {
-            transform: translateY(-4px);
-        }
-
-        .summary-card h3 {
-            margin: 0 0 12px;
-            font-size: 15px;
-            color: #777;
-            font-weight: 500;
-        }
-
-        .summary-card p {
-            margin: 0;
-            font-size: 25px;
-            font-weight: 700;
-            color: #6c63ff;
-        }
-
-        /* ================= ALERT ================= */
-
-        .alert {
-            padding: 16px 20px;
-            border-radius: 15px;
+            gap: 16px;
             margin-bottom: 25px;
-            font-weight: 500;
-            text-align: center;
-        }
-
-        .warning {
-            background: #fff1f1;
-            color: #d64545;
-            border: 1px solid #ffd0d0;
-        }
-
-        .safe {
-            background: #f0fff5;
-            color: #2e8b57;
-            border: 1px solid #ccefd9;
-        }
-
-        /* ================= MAIN GRID ================= */
-
-        .main-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            margin-bottom: 30px;
         }
 
         .card {
             background: white;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.06);
         }
 
-        .card h2 {
-            margin-top: 0;
-            color: #4d477d;
-            font-size: 21px;
-            margin-bottom: 20px;
+        .card .icon {
+            font-size: 27px;
+            margin-bottom: 10px;
         }
 
-        /* ================= FORM ================= */
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 14px;
+        .card h3 {
+            font-size: 13px;
+            color: #77717f;
             font-weight: 500;
-            margin-bottom: 7px;
-            color: #555;
+        }
+
+        .card .value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #302b3a;
+            margin-top: 4px;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 22px;
+            align-items: start;
+        }
+
+        .box {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.06);
+            margin-bottom: 22px;
+        }
+
+        .box h2 {
+            font-size: 20px;
+            margin-bottom: 18px;
+            color: #342e40;
+        }
+
+        .field {
+            margin-bottom: 14px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #625d6b;
+            margin-bottom: 6px;
         }
 
         input,
         select {
             width: 100%;
-            padding: 12px 14px;
-            border: 1px solid #ddd;
+            padding: 11px 13px;
+            border: 1px solid #ddd8e5;
             border-radius: 11px;
             outline: none;
-            font-family: 'Poppins', sans-serif;
-            font-size: 14px;
-            background: #fafafa;
+            font-family: inherit;
+            background: #faf9fc;
         }
 
         input:focus,
         select:focus {
-            border-color: #8b83ff;
+            border-color: #7656a8;
             background: white;
         }
 
         .btn {
-            border: none;
-            padding: 12px 20px;
-            border-radius: 11px;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .btn-primary {
-            background: #6c63ff;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #584ff0;
-        }
-
-        .btn-secondary {
-            background: #eee;
-            color: #555;
-        }
-
-        .btn-danger {
-            background: #ffe5e5;
-            color: #d64545;
-        }
-
-        .btn-edit {
-            background: #eeeaff;
-            color: #6258e8;
-        }
-
-        .btn-voice {
-            background: #f0ecff;
-            color: #6258e8;
             width: 100%;
-            margin-top: 12px;
+            border: none;
+            background: #7656a8;
+            color: white;
+            padding: 12px;
+            border-radius: 11px;
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 5px;
         }
 
-        /* ================= BUDGET ================= */
+        .btn:hover {
+            opacity: 0.92;
+        }
+
+        .btn.secondary {
+            background: #ece7f4;
+            color: #7656a8;
+        }
 
         .budget-info {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 20px;
+            background: #f4f0f8;
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 18px;
         }
 
-        .budget-box {
-            background: #f7f6ff;
-            padding: 15px 10px;
-            border-radius: 13px;
-            text-align: center;
+        .budget-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 7px;
+            font-size: 13px;
         }
 
-        .budget-box span {
-            display: block;
-            font-size: 12px;
-            color: #777;
-            margin-bottom: 5px;
+        .budget-row:last-child {
+            margin-bottom: 0;
         }
 
-        .budget-box strong {
-            font-size: 17px;
-            color: #5e57c7;
+        .budget-row strong {
+            color: #7656a8;
         }
 
-        /* ================= HISTORY ================= */
-
-        .history-card {
-            background: white;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+        .warning {
+            background: #fff1df;
+            color: #9a5c00;
+            border: 1px solid #f1d29f;
+            padding: 13px;
+            border-radius: 12px;
+            margin-bottom: 18px;
+            font-size: 13px;
+            line-height: 1.5;
         }
 
-        .history-card h2 {
-            margin-top: 0;
-            color: #4d477d;
+        .success {
+            background: #e9f8ef;
+            color: #267345;
+            border: 1px solid #bfe6cc;
+            padding: 13px;
+            border-radius: 12px;
+            margin-bottom: 18px;
+            font-size: 13px;
         }
 
         .expense-item {
+            border: 1px solid #ebe7ef;
+            border-radius: 15px;
+            padding: 17px;
+            margin-bottom: 12px;
+            background: #fcfbfd;
+        }
+
+        .expense-top {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             gap: 15px;
-            padding: 16px;
-            margin-bottom: 12px;
-            background: #faf9ff;
-            border-radius: 15px;
-            border: 1px solid #eeeaff;
+            align-items: flex-start;
         }
 
-        .expense-left h3 {
-            margin: 0 0 5px;
-            font-size: 16px;
-            color: #444;
+        .expense-title {
+            font-weight: 700;
+            color: #393341;
+            font-size: 15px;
         }
 
-        .expense-left p {
-            margin: 3px 0;
+        .expense-category {
             font-size: 12px;
-            color: #777;
-        }
-
-        .expense-right {
-            text-align: right;
+            color: #8a8490;
+            margin-top: 3px;
         }
 
         .amount {
-            font-size: 18px;
+            color: #7656a8;
             font-weight: 700;
-            color: #6c63ff;
-            margin-bottom: 8px;
+            font-size: 17px;
+            white-space: nowrap;
         }
 
-        .action-buttons {
-            display: flex;
-            gap: 7px;
-        }
-
-        .action-buttons form {
-            margin: 0;
-        }
-
-        .small-btn {
-            padding: 7px 11px;
-            border: none;
-            border-radius: 8px;
-            font-family: 'Poppins', sans-serif;
+        .expense-date {
+            color: #88818f;
             font-size: 12px;
+            margin-top: 9px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .action-btn {
+            text-decoration: none;
+            border: none;
             cursor: pointer;
+            padding: 7px 12px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .edit {
+            background: #ece7f4;
+            color: #7656a8;
+        }
+
+        .delete {
+            background: #fde9e9;
+            color: #b33b3b;
         }
 
         .empty {
             text-align: center;
-            padding: 25px;
-            color: #888;
+            padding: 35px 15px;
+            color: #8c8692;
         }
 
-        /* ================= RESPONSIVE ================= */
+        .empty .emoji {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
 
-        @media (max-width: 950px) {
-            .summary-cards {
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .section-title h2 {
+            margin: 0;
+        }
+
+        .count {
+            background: #eee8f7;
+            color: #7656a8;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 900px) {
+            .cards {
                 grid-template-columns: repeat(2, 1fr);
             }
 
@@ -335,31 +346,30 @@
             }
         }
 
-        @media (max-width: 550px) {
-            .container {
-                width: 92%;
-            }
-
-            .summary-cards {
-                grid-template-columns: 1fr;
-            }
-
-            .budget-info {
-                grid-template-columns: 1fr;
-            }
-
-            .expense-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .expense-right {
-                text-align: left;
-                width: 100%;
-            }
-
+        @media (max-width: 600px) {
             .navbar {
-                padding: 15px 4%;
+                padding: 14px 4%;
+            }
+
+            .welcome {
+                display: none;
+            }
+
+            .container {
+                width: 94%;
+                margin-top: 25px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .heading h1 {
+                font-size: 25px;
+            }
+
+            .box {
+                padding: 20px;
             }
         }
     </style>
@@ -367,92 +377,83 @@
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <a href="{{ url_for('dashboard') }}" class="logo">💜 MyLife</a>
 
-<div class="navbar">
-    <div class="logo">💜 MyLife</div>
-
-    <a href="{{ url_for('dashboard') }}" class="back-btn">
-        ← Dashboard
-    </a>
-</div>
-
+    <div class="nav-right">
+        <span class="welcome">Hi, {{ user_name }} 👋</span>
+        <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+    </div>
+</nav>
 
 <div class="container">
 
-    <!-- ================= TITLE ================= -->
+    <a href="{{ url_for('dashboard') }}" class="back">← Back to Dashboard</a>
 
-    <div class="page-title">
+    <div class="heading">
         <h1>💰 Expense Manager</h1>
-        <p>Track your spending and manage your budget easily.</p>
+        <p>Track your spending and manage your budget smartly.</p>
     </div>
 
+    <div class="cards">
 
-    <!-- ================= SUMMARY ================= -->
-
-    <div class="summary-cards">
-
-        <!-- TOTAL BUDGET -->
-        <div class="summary-card">
-            <h3>Total Budget</h3>
-            <p>₹{{ "%.2f"|format(budget) }}</p>
-        </div>
-
-        <!-- TOTAL EXPENSE -->
-        <div class="summary-card">
+        <div class="card">
+            <div class="icon">💸</div>
             <h3>Total Expense</h3>
-            <p>₹{{ "%.2f"|format(total_expense) }}</p>
+            <div class="value">₹{{ "%.0f"|format(total_expense or 0) }}</div>
         </div>
 
-        <!-- TODAY EXPENSE -->
-        <div class="summary-card">
+        <div class="card">
+            <div class="icon">📅</div>
             <h3>Today's Expense</h3>
-            <p>₹{{ "%.2f"|format(today_expense) }}</p>
+            <div class="value">₹{{ "%.0f"|format(today_expense or 0) }}</div>
         </div>
 
-        <!-- REMAINING -->
-        <div class="summary-card">
-            <h3>Remaining Money</h3>
-            <p>₹{{ "%.2f"|format(remaining) }}</p>
+        <div class="card">
+            <div class="icon">🎯</div>
+            <h3>Budget</h3>
+            <div class="value">₹{{ "%.0f"|format(budget or 0) }}</div>
+        </div>
+
+        <div class="card">
+            <div class="icon">💵</div>
+            <h3>Remaining</h3>
+            <div class="value">
+                ₹{{ "%.0f"|format(remaining or 0) }}
+            </div>
         </div>
 
     </div>
 
-
-    <!-- ================= MONEY ALERT ================= -->
-
-    {% if budget > 0 and remaining <= low_limit %}
-
-    <div class="alert warning">
-        ⚠️ Your money is running low! Please spend carefully.
+    {% if budget and remaining <= (low_limit or 0) %}
+    <div class="warning">
+        ⚠️ <strong>Money bahut kam hai!</strong><br>
+        Kharcha dhyan se kare. Aapke budget me sirf
+        <strong>₹{{ "%.0f"|format(remaining or 0) }}</strong> remaining hai.
     </div>
-
-    {% elif budget > 0 %}
-
-    <div class="alert safe">
-        ✅ Your budget is under control. Keep tracking your expenses!
-    </div>
-
     {% endif %}
-
-
-    <!-- ================= MAIN SECTION ================= -->
 
     <div class="main-grid">
 
-        <!-- ================= ADD / EDIT EXPENSE ================= -->
+        <!-- LEFT SIDE -->
+        <div>
 
-        <div class="card">
+            <div class="box">
+                <h2>
+                    {% if edit_expense %}
+                        ✏️ Edit Expense
+                    {% else %}
+                        ➕ Add Expense
+                    {% endif %}
+                </h2>
 
-            {% if edit_expense %}
+                {% if edit_expense %}
 
-                <h2>✏️ Edit Expense</h2>
+                <form method="POST"
+                      action="{{ url_for('update_expense', expense_id=edit_expense['id']) }}">
 
-                <form action="{{ url_for('update_expense', expense_id=edit_expense['id']) }}" method="POST">
-
-                    <div class="form-group">
-                        <label>Expense Title</label>
-
+                    <div class="field">
+                        <label>Expense Name</label>
                         <input
                             type="text"
                             name="title"
@@ -461,49 +462,8 @@
                         >
                     </div>
 
-
-                    <div class="form-group">
-                        <label>Category</label>
-
-                        <select name="category" required>
-
-                            <option value="Food"
-                                {% if edit_expense['category'] == 'Food' %}selected{% endif %}>
-                                🍔 Food
-                            </option>
-
-                            <option value="Travel"
-                                {% if edit_expense['category'] == 'Travel' %}selected{% endif %}>
-                                🚗 Travel
-                            </option>
-
-                            <option value="Shopping"
-                                {% if edit_expense['category'] == 'Shopping' %}selected{% endif %}>
-                                🛍️ Shopping
-                            </option>
-
-                            <option value="Study"
-                                {% if edit_expense['category'] == 'Study' %}selected{% endif %}>
-                                📚 Study
-                            </option>
-
-                            <option value="Bills"
-                                {% if edit_expense['category'] == 'Bills' %}selected{% endif %}>
-                                🧾 Bills
-                            </option>
-
-                            <option value="Other"
-                                {% if edit_expense['category'] == 'Other' %}selected{% endif %}>
-                                📦 Other
-                            </option>
-
-                        </select>
-                    </div>
-
-
-                    <div class="form-group">
+                    <div class="field">
                         <label>Amount (₹)</label>
-
                         <input
                             type="number"
                             name="amount"
@@ -514,10 +474,20 @@
                         >
                     </div>
 
+                    <div class="field">
+                        <label>Category</label>
+                        <select name="category">
+                            <option value="Food" {% if edit_expense['category'] == 'Food' %}selected{% endif %}>🍔 Food</option>
+                            <option value="Travel" {% if edit_expense['category'] == 'Travel' %}selected{% endif %}>🚕 Travel</option>
+                            <option value="Shopping" {% if edit_expense['category'] == 'Shopping' %}selected{% endif %}>🛍️ Shopping</option>
+                            <option value="Education" {% if edit_expense['category'] == 'Education' %}selected{% endif %}>📚 Education</option>
+                            <option value="Bills" {% if edit_expense['category'] == 'Bills' %}selected{% endif %}>🧾 Bills</option>
+                            <option value="Other" {% if edit_expense['category'] == 'Other' %}selected{% endif %}>📦 Other</option>
+                        </select>
+                    </div>
 
-                    <div class="form-group">
+                    <div class="field">
                         <label>Date</label>
-
                         <input
                             type="date"
                             name="expense_date"
@@ -526,424 +496,260 @@
                         >
                     </div>
 
-
-                    <button type="submit" class="btn btn-primary">
-                        Update Expense
-                    </button>
-
+                    <button class="btn" type="submit">Update Expense</button>
                     <a
                         href="{{ url_for('expenses') }}"
-                        class="btn btn-secondary"
-                        style="text-decoration:none; display:inline-block; margin-left:5px;"
+                        class="btn secondary"
+                        style="display:block;text-align:center;text-decoration:none;margin-top:10px;"
                     >
                         Cancel
                     </a>
 
                 </form>
 
-            {% else %}
+                {% else %}
 
-                <h2>➕ Add Expense</h2>
+                <form method="POST" action="{{ url_for('add_expense') }}">
 
-                <form action="{{ url_for('add_expense') }}" method="POST">
-
-                    <div class="form-group">
-                        <label>Expense Title</label>
-
+                    <div class="field">
+                        <label>Expense Name</label>
                         <input
                             type="text"
                             name="title"
-                            placeholder="e.g. Lunch"
+                            placeholder="e.g. Lunch, Bus, Books"
                             required
                         >
                     </div>
 
-
-                    <div class="form-group">
-                        <label>Category</label>
-
-                        <select name="category" required>
-
-                            <option value="">Select Category</option>
-                            <option value="Food">🍔 Food</option>
-                            <option value="Travel">🚗 Travel</option>
-                            <option value="Shopping">🛍️ Shopping</option>
-                            <option value="Study">📚 Study</option>
-                            <option value="Bills">🧾 Bills</option>
-                            <option value="Other">📦 Other</option>
-
-                        </select>
-                    </div>
-
-
-                    <div class="form-group">
+                    <div class="field">
                         <label>Amount (₹)</label>
-
                         <input
                             type="number"
                             name="amount"
-                            placeholder="e.g. 500"
                             step="0.01"
                             min="0"
+                            placeholder="Enter amount"
                             required
                         >
                     </div>
 
+                    <div class="field">
+                        <label>Category</label>
+                        <select name="category">
+                            <option value="Food">🍔 Food</option>
+                            <option value="Travel">🚕 Travel</option>
+                            <option value="Shopping">🛍️ Shopping</option>
+                            <option value="Education">📚 Education</option>
+                            <option value="Bills">🧾 Bills</option>
+                            <option value="Other">📦 Other</option>
+                        </select>
+                    </div>
 
-                    <div class="form-group">
+                    <div class="field">
                         <label>Date</label>
-
                         <input
                             type="date"
                             name="expense_date"
-                            id="expenseDate"
+                            value="{{ today }}"
                             required
                         >
                     </div>
 
-
-                    <button type="submit" class="btn btn-primary">
+                    <button class="btn" type="submit">
                         Add Expense
                     </button>
 
                 </form>
 
-            {% endif %}
-
-        </div>
-
-
-        <!-- ================= BUDGET MANAGER ================= -->
-
-        <div class="card">
-
-            <h2>💳 Budget Manager</h2>
-
-            <div class="budget-info">
-
-                <div class="budget-box">
-                    <span>Total Budget</span>
-                    <strong>₹{{ "%.2f"|format(budget) }}</strong>
-                </div>
-
-                <div class="budget-box">
-                    <span>Spent</span>
-                    <strong>₹{{ "%.2f"|format(total_expense) }}</strong>
-                </div>
-
-                <div class="budget-box">
-                    <span>Remaining</span>
-                    <strong>₹{{ "%.2f"|format(remaining) }}</strong>
-                </div>
-
+                {% endif %}
             </div>
 
 
-            <form action="{{ url_for('set_budget') }}" method="POST">
+            <!-- BUDGET -->
+            <div class="box">
 
-                <div class="form-group">
-                    <label>Total Budget (₹)</label>
+                <h2>🎯 Budget Settings</h2>
 
-                    <input
-                        type="number"
-                        name="budget"
-                        step="0.01"
-                        min="0"
-                        value="{{ budget }}"
-                        required
-                    >
+                <div class="budget-info">
+
+                    <div class="budget-row">
+                        <span>Current Budget</span>
+                        <strong>₹{{ "%.0f"|format(budget or 0) }}</strong>
+                    </div>
+
+                    <div class="budget-row">
+                        <span>Remaining</span>
+                        <strong>₹{{ "%.0f"|format(remaining or 0) }}</strong>
+                    </div>
+
+                    <div class="budget-row">
+                        <span>Alert Limit</span>
+                        <strong>₹{{ "%.0f"|format(low_limit or 0) }}</strong>
+                    </div>
+
                 </div>
 
+                <form method="POST" action="{{ url_for('set_budget') }}">
 
-                <div class="form-group">
-                    <label>Low Money Alert Limit (₹)</label>
+                    <div class="field">
+                        <label>Monthly Budget (₹)</label>
+                        <input
+                            type="number"
+                            name="budget"
+                            min="0"
+                            step="0.01"
+                            value="{{ budget or 0 }}"
+                            required
+                        >
+                    </div>
 
-                    <input
-                        type="number"
-                        name="low_limit"
-                        step="0.01"
-                        min="0"
-                        value="{{ low_limit }}"
-                        required
-                    >
-                </div>
+                    <div class="field">
+                        <label>Low Money Alert At (₹)</label>
+                        <input
+                            type="number"
+                            name="low_limit"
+                            min="0"
+                            step="0.01"
+                            value="{{ low_limit or 0 }}"
+                            required
+                        >
+                    </div>
 
+                    <button class="btn" type="submit">
+                        Save Budget
+                    </button>
 
-                <button type="submit" class="btn btn-primary">
-                    💾 Save Budget
-                </button>
+                </form>
 
-            </form>
-
-
-            <button
-                type="button"
-                class="btn btn-voice"
-                onclick="testVoice()"
-            >
-                🔊 Test Voice Reminder
-            </button>
-
-            <button
-                type="button"
-                class="btn btn-voice"
-                onclick="enableNotifications()"
-            >
-                🔔 Enable Expense Notifications
-            </button>
+            </div>
 
         </div>
 
-    </div>
 
+        <!-- RIGHT SIDE -->
+        <div class="box">
 
-    <!-- ================= EXPENSE HISTORY ================= -->
+            <div class="section-title">
+                <h2>📋 Your Expenses</h2>
+                <span class="count">{{ expenses|length }}</span>
+            </div>
 
-    <div class="history-card">
+            {% if expenses %}
 
-        <h2>📋 Expense History</h2>
-
-
-        {% if expenses %}
-
-            {% for expense in expenses %}
+                {% for expense in expenses %}
 
                 <div class="expense-item">
 
-                    <div class="expense-left">
+                    <div class="expense-top">
 
-                        <h3>
-                            {{ expense['title'] }}
-                        </h3>
+                        <div>
+                            <div class="expense-title">
+                                {{ expense['title'] }}
+                            </div>
 
-                        <p>
-                            📂 {{ expense['category'] }}
-                        </p>
+                            <div class="expense-category">
+                                {{ expense['category'] or 'Other' }}
+                            </div>
+                        </div>
 
-                        <p>
-                            📅 {{ expense['expense_date'] }}
-                        </p>
+                        <div class="amount">
+                            ₹{{ "%.2f"|format(expense['amount'] or 0) }}
+                        </div>
 
                     </div>
 
+                    <div class="expense-date">
+                        📅 {{ expense['expense_date'] }}
+                    </div>
 
-                    <div class="expense-right">
+                    <div class="actions">
 
-                        <div class="amount">
-                            ₹{{ "%.2f"|format(expense['amount']) }}
-                        </div>
+                        <a
+                            href="{{ url_for('edit_expense', expense_id=expense['id']) }}"
+                            class="action-btn edit"
+                        >
+                            ✏️ Edit
+                        </a>
 
-
-                        <div class="action-buttons">
-
-                            <a
-                                href="{{ url_for('edit_expense', expense_id=expense['id']) }}"
-                                class="small-btn btn-edit"
-                                style="text-decoration:none;"
+                        <form
+                            method="POST"
+                            action="{{ url_for('delete_expense', expense_id=expense['id']) }}"
+                            onsubmit="return confirm('Are you sure you want to delete this expense?');"
+                            style="display:inline;"
+                        >
+                            <button
+                                type="submit"
+                                class="action-btn delete"
                             >
-                                ✏️ Edit
-                            </a>
-
-
-                            <form
-                                action="{{ url_for('delete_expense', expense_id=expense['id']) }}"
-                                method="POST"
-                                onsubmit="return confirm('Delete this expense?');"
-                            >
-
-                                <button
-                                    type="submit"
-                                    class="small-btn btn-danger"
-                                >
-                                    🗑️ Delete
-                                </button>
-
-                            </form>
-
-                        </div>
+                                🗑️ Delete
+                            </button>
+                        </form>
 
                     </div>
 
                 </div>
 
-            {% endfor %}
+                {% endfor %}
 
-        {% else %}
+            {% else %}
 
-            <div class="empty">
-                💸 No expenses added yet.
-            </div>
+                <div class="empty">
+                    <div class="emoji">💸</div>
+                    <h3>No expenses yet</h3>
+                    <p>Add your first expense to start tracking your money.</p>
+                </div>
 
-        {% endif %}
+            {% endif %}
+
+        </div>
 
     </div>
 
 </div>
 
-
 <script>
+    // Simple low-money browser alert
+    document.addEventListener("DOMContentLoaded", function () {
 
-    /* ================= TODAY DATE ================= */
+        const budget = Number("{{ budget or 0 }}");
+        const remaining = Number("{{ remaining or 0 }}");
+        const lowLimit = Number("{{ low_limit or 0 }}");
 
-    const dateInput = document.getElementById("expenseDate");
+        if (budget > 0 && remaining <= lowLimit) {
 
-    if (dateInput && !dateInput.value) {
-
-        const today = new Date();
-
-        const year = today.getFullYear();
-
-        const month = String(today.getMonth() + 1).padStart(2, "0");
-
-        const day = String(today.getDate()).padStart(2, "0");
-
-        dateInput.value = `${year}-${month}-${day}`;
-    }
-
-
-    /* ================= VOICE FUNCTION ================= */
-
-    function speak(message) {
-
-        if ("speechSynthesis" in window) {
-
-            window.speechSynthesis.cancel();
-
-            const speech =
-                new SpeechSynthesisUtterance(message);
-
-            speech.lang = "en-US";
-
-            speech.rate = 0.9;
-
-            speech.pitch = 1;
-
-            window.speechSynthesis.speak(speech);
-
-        }
-
-    }
-
-
-    /* ================= TEST VOICE ================= */
-
-    function testVoice() {
-
-        speak(
-            "This is your MyLife expense reminder. Please check your expenses and manage your budget carefully."
-        );
-
-    }
-
-
-    /* ================= NOTIFICATION ================= */
-
-    function enableNotifications() {
-
-        if (!("Notification" in window)) {
-
-            alert("Your browser does not support notifications.");
-
-            return;
-        }
-
-
-        Notification.requestPermission()
-            .then(permission => {
-
-                if (permission === "granted") {
-
-                    new Notification(
-                        "MyLife Expense Manager",
-                        {
-                            body: "Expense notifications are enabled."
-                        }
-                    );
-
+            try {
+                if ("Notification" in window &&
+                    Notification.permission === "default") {
+                    Notification.requestPermission();
                 }
 
-            });
+                if ("Notification" in window &&
+                    Notification.permission === "granted") {
 
-    }
-
-
-    /* ================= LOW MONEY REMINDER ================= */
-
-    const budget =
-        Number("{{ budget }}");
-
-    const remaining =
-        Number("{{ remaining }}");
-
-    const lowLimit =
-        Number("{{ low_limit }}");
-
-
-    function checkMoneyReminder() {
-
-        if (
-            budget > 0 &&
-            remaining <= lowLimit
-        ) {
-
-            const today =
-                new Date().toISOString().split("T")[0];
-
-            const reminderKey =
-                "mylife_low_money_" + today;
-
-
-            if (
-                localStorage.getItem(reminderKey) !== "shown"
-            ) {
-
-                speak(
-                    "Your money is running low. Please spend carefully and keep an eye on your expenses."
-                );
-
-
-                if (
-                    "Notification" in window &&
-                    Notification.permission === "granted"
-                ) {
-
-                    new Notification(
-                        "MyLife Low Money Alert",
-                        {
-                            body:
-                                "Your remaining money is ₹" +
-                                remaining.toFixed(2) +
-                                ". Please spend carefully."
-                        }
-                    );
-
+                    new Notification("💰 MyLife Expense Alert", {
+                        body: "Money bahut kam hai — kharcha dhyan se kare."
+                    });
                 }
-
-
-                localStorage.setItem(
-                    reminderKey,
-                    "shown"
-                );
-
+            } catch (error) {
+                console.log("Notification unavailable.");
             }
 
+            try {
+                if ("speechSynthesis" in window) {
+                    const message = new SpeechSynthesisUtterance(
+                        "Money bahut kam hai. Kharcha dhyan se kare."
+                    );
+
+                    message.rate = 0.9;
+                    message.pitch = 1;
+
+                    window.speechSynthesis.speak(message);
+                }
+            } catch (error) {
+                console.log("Voice reminder unavailable.");
+            }
         }
-
-    }
-
-
-    /* Check when page opens */
-
-    checkMoneyReminder();
-
-
-    /* Check every 10 seconds */
-
-    setInterval(
-        checkMoneyReminder,
-        10000
-    );
-
+    });
 </script>
 
 </body>

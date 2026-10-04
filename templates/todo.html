@@ -1,624 +1,593 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyLife - To-Do List</title>
 
-<title>MyLife - To-Do List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<style>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-*{
-    box-sizing:border-box;
-}
+        body {
+            font-family: "Poppins", sans-serif;
+            background: #eeeeF1;
+            color: #292833;
+        }
 
-body{
-    margin:0;
-    font-family:Poppins,sans-serif;
-    background:linear-gradient(135deg,#eeeeee,#f8f6ff);
-    color:#333;
-    min-height:100vh;
-}
+        a {
+            text-decoration: none;
+        }
 
-.navbar{
-    background:rgba(255,255,255,.95);
-    padding:18px 7%;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    box-shadow:0 4px 15px rgba(0,0,0,.06);
-}
+        .navbar {
+            background: white;
+            border-bottom: 1px solid #e2e1e6;
+            padding: 14px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-.logo{
-    font-size:25px;
-    font-weight:700;
-    color:#7667c7;
-}
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #6250a4;
+            font-size: 21px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
 
-.container{
-    width:90%;
-    max-width:1000px;
-    margin:35px auto;
-}
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: #e8e2ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
 
-.back{
-    text-decoration:none;
-    color:#7667c7;
-    font-weight:600;
-}
+        .nav-links {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
 
-h1{
-    margin-bottom:5px;
-}
+        .nav-links a {
+            color: #696673;
+            font-size: 12px;
+            padding: 8px 10px;
+            border-radius: 9px;
+        }
 
-.subtitle{
-    color:#777;
-    margin-bottom:25px;
-}
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: #eeeafd;
+            color: #5d4b9b;
+        }
 
-.card{
-    background:white;
-    padding:25px;
-    border-radius:22px;
-    box-shadow:0 8px 25px rgba(0,0,0,.07);
-    margin-bottom:25px;
-}
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+        }
 
-.form-grid{
-    display:grid;
-    grid-template-columns:2fr 1fr 1fr auto;
-    gap:12px;
-}
+        .hello {
+            color: #777480;
+            font-size: 12px;
+        }
 
-input{
-    width:100%;
-    padding:13px;
-    border:1px solid #ddd;
-    border-radius:12px;
-    font-family:inherit;
-}
+        .logout {
+            background: #292833;
+            color: white;
+            padding: 8px 13px;
+            border-radius: 9px;
+            font-size: 12px;
+        }
 
-button{
-    border:0;
-    padding:13px 18px;
-    border-radius:12px;
-    background:#7667c7;
-    color:white;
-    font-weight:600;
-    cursor:pointer;
-}
+        .container {
+            width: min(1100px, 92%);
+            margin: 35px auto 60px;
+        }
 
-.notification-box{
-    background:#eeeaff;
-    padding:16px;
-    border-radius:15px;
-    margin-bottom:20px;
-    color:#5d5295;
-}
+        .page-heading {
+            margin-bottom: 25px;
+        }
 
-.status{
-    margin-left:12px;
-    color:#666;
-    font-size:13px;
-}
+        .page-heading h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
 
-.task{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:17px;
-    background:#f8f7ff;
-    border-radius:15px;
-    margin-bottom:12px;
-}
+        .page-heading p {
+            color: #85828d;
+            font-size: 13px;
+        }
 
-.task.completed .task-title{
-    text-decoration:line-through;
-    color:#999;
-}
+        .layout {
+            display: grid;
+            grid-template-columns: 330px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
 
-.task-title{
-    font-weight:600;
-}
+        .card {
+            background: white;
+            border: 1px solid #e3e2e7;
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 7px 25px rgba(45, 43, 60, 0.05);
+        }
 
-.task-time{
-    font-size:12px;
-    color:#777;
-    margin-top:5px;
-}
+        .card h2 {
+            font-size: 17px;
+            margin-bottom: 18px;
+        }
 
-.actions{
-    display:flex;
-    gap:8px;
-}
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-.actions a{
-    text-decoration:none;
-    padding:8px 12px;
-    border-radius:10px;
-    font-size:13px;
-    font-weight:600;
-}
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: #575462;
+            margin-bottom: 7px;
+        }
 
-.complete{
-    background:#e8e4ff;
-    color:#6555b8;
-}
+        input {
+            width: 100%;
+            border: 1px solid #dedde4;
+            background: #fafafa;
+            border-radius: 10px;
+            padding: 11px 12px;
+            font-family: inherit;
+            font-size: 12px;
+            color: #292833;
+            outline: none;
+        }
 
-.delete{
-    background:#ffe5e5;
-    color:#c44;
-}
+        input:focus {
+            background: white;
+            border-color: #9583cb;
+            box-shadow: 0 0 0 3px rgba(107, 87, 173, 0.08);
+        }
 
-.empty{
-    text-align:center;
-    color:#888;
-    padding:25px;
-}
+        .add-btn {
+            width: 100%;
+            border: none;
+            background: #6955a9;
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 5px;
+        }
 
-@media(max-width:750px){
+        .add-btn:hover {
+            background: #56438e;
+        }
 
-    .form-grid{
-        grid-template-columns:1fr;
-    }
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 17px;
+            gap: 10px;
+        }
 
-    .task{
-        flex-direction:column;
-        align-items:flex-start;
-        gap:15px;
-    }
+        .list-header h2 {
+            margin-bottom: 0;
+        }
 
-}
+        .count {
+            background: #eee9ff;
+            color: #604ba4;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+        }
 
-</style>
+        .task {
+            border: 1px solid #e6e4ea;
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            transition: 0.2s ease;
+        }
 
+        .task:hover {
+            border-color: #d1c9e9;
+            box-shadow: 0 5px 15px rgba(45, 43, 60, 0.04);
+        }
+
+        .task-left {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .check {
+            width: 20px;
+            height: 20px;
+            min-width: 20px;
+            border-radius: 50%;
+            background: #eee9ff;
+            color: #6955a9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+
+        .task.completed {
+            opacity: 0.65;
+        }
+
+        .task.completed .task-title {
+            text-decoration: line-through;
+            color: #85828d;
+        }
+
+        .task-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #393742;
+            word-break: break-word;
+        }
+
+        .task-info {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 5px;
+            color: #8b8893;
+            font-size: 10px;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .action-btn {
+            border: none;
+            padding: 7px 9px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 10px;
+            cursor: pointer;
+        }
+
+        .done-btn {
+            background: #def1e4;
+            color: #34734a;
+        }
+
+        .undo-btn {
+            background: #eee9ff;
+            color: #604ba4;
+        }
+
+        .delete-btn {
+            background: #f7dddd;
+            color: #9d4141;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 45px 15px;
+            color: #898691;
+            font-size: 12px;
+        }
+
+        .empty-icon {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            color: #9996a2;
+            font-size: 11px;
+            padding: 25px 10px;
+        }
+
+        @media (max-width: 900px) {
+            .navbar {
+                flex-wrap: wrap;
+            }
+
+            .nav-links {
+                order: 3;
+                width: 100%;
+            }
+
+            .layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 94%;
+                margin-top: 25px;
+            }
+
+            .page-heading h1 {
+                font-size: 24px;
+            }
+
+            .hello {
+                display: none;
+            }
+
+            .nav-links {
+                overflow-x: auto;
+                justify-content: flex-start;
+            }
+
+            .task {
+                align-items: flex-start;
+            }
+
+            .task-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
-
 
 <body>
 
-
 <nav class="navbar">
 
-    <div class="logo">
-        💜 MyLife
+    <a href="{{ url_for('dashboard') }}" class="brand">
+        <span class="brand-icon">💜</span>
+        <span>MyLife</span>
+    </a>
+
+    <div class="nav-links">
+        <a href="{{ url_for('dashboard') }}">🏠 Home</a>
+        <a href="{{ url_for('todo') }}" class="active">✅ To-Do</a>
+        <a href="{{ url_for('study') }}">📚 Study</a>
+        <a href="{{ url_for('assignments') }}">📝 Assignments</a>
+        <a href="{{ url_for('expenses') }}">💰 Expenses</a>
+        <a href="{{ url_for('shopping') }}">🛒 Shopping</a>
+        <a href="{{ url_for('calendar') }}">📅 Calendar</a>
+        <a href="{{ url_for('summary') }}">📊 Summary</a>
     </div>
 
-    <div>
-        Hi, {{ name }}
+    <div class="user-area">
+        <span class="hello">Hi, {{ user_name }} 👋</span>
+        <a href="{{ url_for('logout') }}" class="logout">Logout</a>
     </div>
 
 </nav>
 
 
-<div class="container">
+<main class="container">
 
+    <div class="page-heading">
+        <h1>✅ To-Do List</h1>
+        <p>Organize your daily tasks and get things done.</p>
+    </div>
 
-<a href="{{ url_for('dashboard') }}" class="back">
-    ← Back to Dashboard
-</a>
 
+    <div class="layout">
 
-<h1>📝 My To-Do List</h1>
+        <!-- ADD TASK -->
 
-<p class="subtitle">
-    Plan your tasks and get reminders.
-</p>
+        <div class="card">
 
+            <h2>➕ Add New Task</h2>
 
-<div class="notification-box">
+            <form method="POST" action="{{ url_for('add_task') }}">
 
-    🔔 First click
-    <b>Enable Notifications</b>
-    and select <b>Allow</b>.
+                <div class="form-group">
+                    <label for="title">Task</label>
 
-    <br><br>
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        placeholder="What do you need to do?"
+                        required
+                    >
+                </div>
 
-    Voice reminder will speak in normal English.
+                <div class="form-group">
+                    <label for="task_date">Date</label>
 
-</div>
+                    <input
+                        type="date"
+                        id="task_date"
+                        name="task_date"
+                        value="{{ today }}"
+                    >
+                </div>
 
+                <div class="form-group">
+                    <label for="task_time">Time</label>
 
-<div class="card">
+                    <input
+                        type="time"
+                        id="task_time"
+                        name="task_time"
+                    >
+                </div>
 
-    <button onclick="enableNotifications()">
-        🔔 Enable Notifications
-    </button>
+                <button type="submit" class="add-btn">
+                    + Add Task
+                </button>
 
-    <span id="notificationStatus" class="status"></span>
+            </form>
 
-</div>
+        </div>
 
 
-<div class="card">
+        <!-- TASK LIST -->
 
+        <div class="card">
 
-<form
-    action="{{ url_for('add_task') }}"
-    method="POST"
->
+            <div class="list-header">
 
+                <h2>Today's Tasks 📋</h2>
 
-<div class="form-grid">
+                <span class="count">
+                    {{ tasks|length }} Tasks
+                </span>
 
+            </div>
 
-<input
-    type="text"
-    name="title"
-    placeholder="Enter your task..."
-    required
->
 
+            {% if tasks %}
 
-<input
-    type="date"
-    name="task_date"
-    required
->
+                {% for task in tasks %}
 
+                <div class="task {% if task['completed'] %}completed{% endif %}">
 
-<input
-    type="time"
-    name="task_time"
-    required
->
+                    <div class="task-left">
 
+                        <div class="check">
+                            {% if task['completed'] %}
+                                ✓
+                            {% else %}
+                                ○
+                            {% endif %}
+                        </div>
 
-<button type="submit">
-    + Add Task
-</button>
+                        <div>
 
+                            <div class="task-title">
+                                {{ task['title'] }}
+                            </div>
 
-</div>
+                            <div class="task-info">
 
-</form>
+                                {% if task['task_date'] %}
+                                    <span>📅 {{ task['task_date'] }}</span>
+                                {% endif %}
 
-</div>
+                                {% if task['task_time'] %}
+                                    <span>⏰ {{ task['task_time'] }}</span>
+                                {% endif %}
 
+                            </div>
 
-<div class="card">
+                        </div>
 
-<h2>📋 Your Tasks</h2>
+                    </div>
 
 
-{% if tasks %}
+                    <div class="task-actions">
 
+                        <form
+                            method="POST"
+                            action="{{ url_for('toggle_task', task_id=task['id']) }}"
+                        >
 
-{% for task in tasks %}
+                            {% if task['completed'] %}
 
+                                <button
+                                    type="submit"
+                                    class="action-btn undo-btn"
+                                >
+                                    ↩ Undo
+                                </button>
 
-<div class="task {% if task['completed'] %}completed{% endif %}">
+                            {% else %}
 
+                                <button
+                                    type="submit"
+                                    class="action-btn done-btn"
+                                >
+                                    ✓ Done
+                                </button>
 
-<div>
+                            {% endif %}
 
-<div class="task-title">
+                        </form>
 
-{{ task['title'] }}
 
-</div>
+                        <form
+                            method="POST"
+                            action="{{ url_for('delete_task', task_id=task['id']) }}"
+                            onsubmit="return confirm('Delete this task?');"
+                        >
 
+                            <button
+                                type="submit"
+                                class="action-btn delete-btn"
+                            >
+                                🗑 Delete
+                            </button>
 
-<div class="task-time">
+                        </form>
 
-📅 {{ task['task_date'] }}
+                    </div>
 
-&nbsp; | &nbsp;
+                </div>
 
-⏰ {{ task['task_time'] }}
+                {% endfor %}
 
-</div>
+            {% else %}
 
+                <div class="empty">
 
-</div>
+                    <div class="empty-icon">📝</div>
 
+                    <div>
+                        No tasks yet.
+                    </div>
 
-<div class="actions">
+                    <div style="margin-top: 5px;">
+                        Add your first task from the left.
+                    </div>
 
+                </div>
 
-<a
-href="{{ url_for('toggle_task', task_id=task['id']) }}"
-class="complete"
->
+            {% endif %}
 
-{% if task['completed'] %}
+        </div>
 
-↩ Undo
+    </div>
 
-{% else %}
+</main>
 
-✓ Complete
 
-{% endif %}
-
-</a>
-
-
-<a
-href="{{ url_for('delete_task', task_id=task['id']) }}"
-class="delete"
->
-
-🗑 Delete
-
-</a>
-
-
-</div>
-
-
-</div>
-
-
-{% endfor %}
-
-
-{% else %}
-
-
-<div class="empty">
-
-No tasks added yet 🌸
-
-</div>
-
-
-{% endif %}
-
-
-</div>
-
-
-</div>
-
-
-<script>
-
-
-// ================================
-// NOTIFICATION PERMISSION
-// ================================
-
-function enableNotifications(){
-
-    if(!("Notification" in window)){
-
-        alert(
-            "This browser does not support notifications."
-        );
-
-        return;
-    }
-
-
-    Notification.requestPermission().then(function(permission){
-
-        const status =
-            document.getElementById(
-                "notificationStatus"
-            );
-
-
-        status.innerText =
-            "Permission: " + permission;
-
-
-        if(permission === "granted"){
-
-            new Notification(
-                "MyLife",
-                {
-                    body:
-                    "Notifications are enabled successfully."
-                }
-            );
-
-            // Test voice
-            speak(
-                "MyLife notifications are enabled."
-            );
-
-        }
-
-    });
-
-}
-
-
-// ================================
-// VOICE
-// ================================
-
-function speak(message){
-
-    if(!("speechSynthesis" in window)){
-
-        return;
-
-    }
-
-
-    window.speechSynthesis.cancel();
-
-
-    const speech =
-        new SpeechSynthesisUtterance(
-            message
-        );
-
-
-    speech.lang = "en-US";
-
-    speech.rate = 0.9;
-
-    speech.pitch = 1;
-
-    speech.volume = 1;
-
-
-    window.speechSynthesis.speak(
-        speech
-    );
-
-}
-
-
-// ================================
-// SHOW NOTIFICATION
-// ================================
-
-function showNotification(
-    title,
-    message
-){
-
-    if(
-        "Notification" in window &&
-        Notification.permission === "granted"
-    ){
-
-        new Notification(
-            title,
-            {
-                body:message
-            }
-        );
-
-    }
-
-}
-
-
-// ================================
-// CHECK TASKS
-// ================================
-
-function checkTaskReminders(){
-
-    const now =
-        new Date();
-
-
-    const currentDate =
-        now.getFullYear()
-        + "-"
-        + String(
-            now.getMonth() + 1
-        ).padStart(2,"0")
-        + "-"
-        + String(
-            now.getDate()
-        ).padStart(2,"0");
-
-
-    const currentTime =
-        String(
-            now.getHours()
-        ).padStart(2,"0")
-        + ":"
-        + String(
-            now.getMinutes()
-        ).padStart(2,"0");
-
-
-    const tasks = [
-
-    {% for task in tasks %}
-
-        {% if not task['completed'] %}
-
-        {
-
-            id:
-            "{{ task['id'] }}",
-
-            title:
-            {{ task['title']|tojson }},
-
-            date:
-            "{{ task['task_date'] }}",
-
-            time:
-            "{{ task['task_time'] }}"
-
-        },
-
-        {% endif %}
-
-    {% endfor %}
-
-    ];
-
-
-    tasks.forEach(
-        function(task){
-
-            if(
-                task.date === currentDate &&
-                task.time === currentTime
-            ){
-
-                const key =
-                    "todo_reminder_"
-                    + task.id
-                    + "_"
-                    + currentDate
-                    + "_"
-                    + currentTime;
-
-
-                if(
-                    !localStorage.getItem(key)
-                ){
-
-                    const message =
-                        "Reminder. You have a task to complete: "
-                        + task.title
-                        + ".";
-
-
-                    speak(message);
-
-
-                    showNotification(
-                        "MyLife Task Reminder",
-                        message
-                    );
-
-
-                    localStorage.setItem(
-                        key,
-                        "done"
-                    );
-
-                }
-
-            }
-
-        }
-    );
-
-}
-
-
-// Check immediately
-checkTaskReminders();
-
-
-// Check every 10 seconds
-setInterval(
-    checkTaskReminders,
-    10000
-);
-
-
-</script>
-
+<footer>
+    💜 MyLife — Plan • Organize • Achieve
+</footer>
 
 </body>
-
 </html>

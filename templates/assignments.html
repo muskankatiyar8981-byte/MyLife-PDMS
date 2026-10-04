@@ -1,738 +1,642 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyLife - Assignments</title>
 
-<title>MyLife - Assignments</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<style>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-*{
-    box-sizing:border-box;
-}
+        body {
+            font-family: "Poppins", sans-serif;
+            background: #eeeeF1;
+            color: #292833;
+        }
 
-body{
-    margin:0;
-    font-family:Poppins,sans-serif;
-    background:linear-gradient(135deg,#eeeeee,#f8f6ff);
-    color:#333;
-    min-height:100vh;
-}
+        a {
+            text-decoration: none;
+        }
 
-.navbar{
-    background:rgba(255,255,255,.95);
-    padding:18px 7%;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    box-shadow:0 4px 15px rgba(0,0,0,.06);
-}
+        .navbar {
+            background: white;
+            border-bottom: 1px solid #e2e1e6;
+            padding: 14px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-.logo{
-    font-size:25px;
-    font-weight:700;
-    color:#7667c7;
-}
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #6250a4;
+            font-size: 21px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
 
-.container{
-    width:90%;
-    max-width:1000px;
-    margin:35px auto;
-}
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: #e8e2ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
 
-.back{
-    text-decoration:none;
-    color:#7667c7;
-    font-weight:600;
-}
+        .nav-links {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
 
-.subtitle{
-    color:#777;
-}
+        .nav-links a {
+            color: #696673;
+            font-size: 12px;
+            padding: 8px 10px;
+            border-radius: 9px;
+        }
 
-.card{
-    background:white;
-    padding:25px;
-    border-radius:22px;
-    box-shadow:0 8px 25px rgba(0,0,0,.07);
-    margin-bottom:25px;
-}
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: #eeeafd;
+            color: #5d4b9b;
+        }
 
-.notification-box{
-    background:#eeeaff;
-    padding:16px;
-    border-radius:15px;
-    margin:20px 0;
-    color:#5d5295;
-}
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+        }
 
-.status{
-    margin-left:12px;
-    color:#666;
-    font-size:13px;
-}
+        .hello {
+            color: #777480;
+            font-size: 12px;
+        }
 
-.form-grid{
-    display:grid;
-    grid-template-columns:1.5fr 1fr 1fr 1fr 1fr auto;
-    gap:10px;
-}
+        .logout {
+            background: #292833;
+            color: white;
+            padding: 8px 13px;
+            border-radius: 9px;
+            font-size: 12px;
+        }
 
-input,
-select{
-    width:100%;
-    padding:13px;
-    border:1px solid #ddd;
-    border-radius:12px;
-    font-family:inherit;
-}
+        .container {
+            width: min(1150px, 92%);
+            margin: 35px auto 60px;
+        }
 
-button{
-    border:0;
-    padding:13px 18px;
-    border-radius:12px;
-    background:#7667c7;
-    color:white;
-    font-weight:600;
-    cursor:pointer;
-}
+        .page-heading {
+            margin-bottom: 25px;
+        }
 
-.assignment{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:18px;
-    background:#f8f7ff;
-    border-radius:15px;
-    margin-bottom:12px;
-}
+        .page-heading h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
 
-.assignment.completed{
-    opacity:.6;
-}
+        .page-heading p {
+            color: #85828d;
+            font-size: 13px;
+        }
 
-.assignment.completed .title{
-    text-decoration:line-through;
-}
+        .layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
 
-.title{
-    font-weight:600;
-}
+        .card {
+            background: white;
+            border: 1px solid #e3e2e7;
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 7px 25px rgba(45, 43, 60, 0.05);
+        }
 
-.subject{
-    color:#7667c7;
-    font-size:13px;
-    margin-top:3px;
-}
+        .card h2 {
+            font-size: 17px;
+            margin-bottom: 18px;
+        }
 
-.details{
-    color:#777;
-    font-size:12px;
-    margin-top:5px;
-}
+        .form-group {
+            margin-bottom: 14px;
+        }
 
-.priority{
-    display:inline-block;
-    margin-top:7px;
-    padding:4px 9px;
-    border-radius:8px;
-    font-size:11px;
-    font-weight:600;
-}
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: #575462;
+            margin-bottom: 7px;
+        }
 
-.high{
-    background:#ffe0e0;
-    color:#c33;
-}
+        input,
+        select {
+            width: 100%;
+            border: 1px solid #dedde4;
+            background: #fafafa;
+            border-radius: 10px;
+            padding: 11px 12px;
+            font-family: inherit;
+            font-size: 12px;
+            color: #292833;
+            outline: none;
+        }
 
-.medium{
-    background:#fff0cf;
-    color:#a46a00;
-}
+        input:focus,
+        select:focus {
+            background: white;
+            border-color: #9583cb;
+            box-shadow: 0 0 0 3px rgba(107, 87, 173, 0.08);
+        }
 
-.low{
-    background:#dff6e5;
-    color:#36804a;
-}
+        .add-btn {
+            width: 100%;
+            border: none;
+            background: #6955a9;
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 5px;
+        }
 
-.actions{
-    display:flex;
-    gap:8px;
-}
+        .add-btn:hover {
+            background: #56438e;
+        }
 
-.actions a{
-    text-decoration:none;
-    padding:8px 12px;
-    border-radius:10px;
-    font-size:13px;
-    font-weight:600;
-}
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 17px;
+            gap: 10px;
+        }
 
-.complete{
-    background:#e8e4ff;
-    color:#6555b8;
-}
+        .list-header h2 {
+            margin-bottom: 0;
+        }
 
-.delete{
-    background:#ffe5e5;
-    color:#c44;
-}
+        .count {
+            background: #eee9ff;
+            color: #604ba4;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+        }
 
-.empty{
-    text-align:center;
-    color:#888;
-    padding:25px;
-}
+        .assignment {
+            border: 1px solid #e6e4ea;
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 11px;
+            transition: 0.2s ease;
+        }
 
-@media(max-width:900px){
+        .assignment:hover {
+            border-color: #d1c9e9;
+            box-shadow: 0 5px 15px rgba(45, 43, 60, 0.04);
+        }
 
-    .form-grid{
-        grid-template-columns:1fr 1fr;
-    }
+        .assignment.completed {
+            opacity: 0.65;
+        }
 
-}
+        .assignment.completed .title {
+            text-decoration: line-through;
+            color: #85828d;
+        }
 
-@media(max-width:650px){
+        .assignment-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+        }
 
-    .form-grid{
-        grid-template-columns:1fr;
-    }
+        .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #393742;
+        }
 
-    .assignment{
-        flex-direction:column;
-        align-items:flex-start;
-        gap:15px;
-    }
+        .subject {
+            font-size: 11px;
+            color: #777480;
+            margin-top: 3px;
+        }
 
-}
+        .details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 9px;
+            color: #898691;
+            font-size: 10px;
+        }
 
-</style>
+        .priority {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 8px;
+            border-radius: 7px;
+            font-size: 9px;
+            font-weight: 600;
+        }
 
+        .priority-high {
+            background: #f8dddd;
+            color: #9d4141;
+        }
+
+        .priority-medium {
+            background: #fff0d3;
+            color: #8b641f;
+        }
+
+        .priority-low {
+            background: #def1e4;
+            color: #34734a;
+        }
+
+        .actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .action-btn {
+            border: none;
+            padding: 7px 9px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 10px;
+            cursor: pointer;
+        }
+
+        .done-btn {
+            background: #def1e4;
+            color: #34734a;
+        }
+
+        .undo-btn {
+            background: #eee9ff;
+            color: #604ba4;
+        }
+
+        .delete-btn {
+            background: #f7dddd;
+            color: #9d4141;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 45px 15px;
+            color: #898691;
+            font-size: 12px;
+        }
+
+        .empty-icon {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            color: #9996a2;
+            font-size: 11px;
+            padding: 25px 10px;
+        }
+
+        @media (max-width: 900px) {
+            .navbar {
+                flex-wrap: wrap;
+            }
+
+            .nav-links {
+                order: 3;
+                width: 100%;
+            }
+
+            .layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 94%;
+                margin-top: 25px;
+            }
+
+            .page-heading h1 {
+                font-size: 24px;
+            }
+
+            .hello {
+                display: none;
+            }
+
+            .nav-links {
+                overflow-x: auto;
+                justify-content: flex-start;
+            }
+
+            .assignment-top {
+                flex-direction: column;
+            }
+
+            .actions {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
-
 
 <body>
 
-
 <nav class="navbar">
 
-<div class="logo">
-💜 MyLife
-</div>
+    <a href="{{ url_for('dashboard') }}" class="brand">
+        <span class="brand-icon">💜</span>
+        <span>MyLife</span>
+    </a>
 
-<div>
-Hi, {{ name }}
-</div>
+    <div class="nav-links">
+        <a href="{{ url_for('dashboard') }}">🏠 Home</a>
+        <a href="{{ url_for('todo') }}">✅ To-Do</a>
+        <a href="{{ url_for('study') }}">📚 Study</a>
+        <a href="{{ url_for('assignments') }}" class="active">📝 Assignments</a>
+        <a href="{{ url_for('expenses') }}">💰 Expenses</a>
+        <a href="{{ url_for('shopping') }}">🛒 Shopping</a>
+        <a href="{{ url_for('calendar') }}">📅 Calendar</a>
+        <a href="{{ url_for('summary') }}">📊 Summary</a>
+    </div>
+
+    <div class="user-area">
+        <span class="hello">Hi, {{ user_name }} 👋</span>
+        <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+    </div>
 
 </nav>
 
 
-<div class="container">
+<main class="container">
 
+    <div class="page-heading">
+        <h1>📝 Assignments</h1>
+        <p>Keep your college assignments organized and never miss a deadline.</p>
+    </div>
 
-<a
-href="{{ url_for('dashboard') }}"
-class="back"
->
-← Back to Dashboard
-</a>
 
+    <div class="layout">
 
-<h1>📚 Assignments</h1>
+        <!-- ADD ASSIGNMENT -->
 
-<p class="subtitle">
-Manage assignments and get voice reminders.
-</p>
+        <div class="card">
 
+            <h2>➕ Add Assignment</h2>
 
-<div class="notification-box">
+            <form method="POST" action="{{ url_for('add_assignment') }}">
 
-🔔 Click
-<b>Enable Notifications</b>
-and select <b>Allow</b>.
+                <div class="form-group">
+                    <label for="title">Assignment Title</label>
 
-<br><br>
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        placeholder="e.g. DBMS Assignment 1"
+                        required
+                    >
+                </div>
 
-Voice reminder will speak in normal English.
+                <div class="form-group">
+                    <label for="subject">Subject</label>
 
-</div>
+                    <input
+                        type="text"
+                        id="subject"
+                        name="subject"
+                        placeholder="e.g. DBMS"
+                        required
+                    >
+                </div>
 
+                <div class="form-group">
+                    <label for="due_date">Due Date</label>
 
-<div class="card">
+                    <input
+                        type="date"
+                        id="due_date"
+                        name="due_date"
+                        required
+                    >
+                </div>
 
-<button onclick="enableNotifications()">
+                <div class="form-group">
+                    <label for="due_time">Due Time</label>
 
-🔔 Enable Notifications
+                    <input
+                        type="time"
+                        id="due_time"
+                        name="due_time"
+                    >
+                </div>
 
-</button>
+                <div class="form-group">
+                    <label for="priority">Priority</label>
 
-<span
-id="notificationStatus"
-class="status"
-></span>
+                    <select id="priority" name="priority">
 
-</div>
+                        <option value="High">
+                            High
+                        </option>
 
+                        <option value="Medium" selected>
+                            Medium
+                        </option>
 
-<div class="card">
+                        <option value="Low">
+                            Low
+                        </option>
 
+                    </select>
+                </div>
 
-<form
-action="{{ url_for('add_assignment') }}"
-method="POST"
->
+                <button type="submit" class="add-btn">
+                    + Add Assignment
+                </button>
 
+            </form>
 
-<div class="form-grid">
+        </div>
 
 
-<input
-type="text"
-name="title"
-placeholder="Assignment title"
-required
->
+        <!-- ASSIGNMENT LIST -->
 
+        <div class="card">
 
-<input
-type="text"
-name="subject"
-placeholder="Subject"
-required
->
+            <div class="list-header">
 
+                <h2>My Assignments 📋</h2>
 
-<input
-type="date"
-name="due_date"
-required
->
+                <span class="count">
+                    {{ assignments|length }} Assignments
+                </span>
 
+            </div>
 
-<input
-type="time"
-name="due_time"
-required
->
 
+            {% if assignments %}
 
-<select
-name="priority"
-required
->
+                {% for assignment in assignments %}
 
-<option value="High">
-High Priority
-</option>
+                <div class="assignment {% if assignment['completed'] %}completed{% endif %}">
 
-<option
-value="Medium"
-selected
->
-Medium Priority
-</option>
+                    <div class="assignment-top">
 
-<option value="Low">
-Low Priority
-</option>
+                        <div>
 
-</select>
+                            <div class="title">
+                                {{ assignment['title'] }}
+                            </div>
 
+                            <div class="subject">
+                                📚 {{ assignment['subject'] }}
+                            </div>
 
-<button type="submit">
-+ Add
-</button>
+                            <div class="details">
 
+                                {% if assignment['due_date'] %}
+                                    <span>
+                                        📅 {{ assignment['due_date'] }}
+                                    </span>
+                                {% endif %}
 
-</div>
+                                {% if assignment['due_time'] %}
+                                    <span>
+                                        ⏰ {{ assignment['due_time'] }}
+                                    </span>
+                                {% endif %}
 
-</form>
+                                {% set priority = assignment['priority']|lower %}
 
-</div>
+                                <span class="priority priority-{{ priority }}">
+                                    {{ assignment['priority'] }}
+                                </span>
 
+                            </div>
 
-<div class="card">
+                        </div>
 
-<h2>📋 Your Assignments</h2>
 
+                        <div class="actions">
 
-{% if assignments %}
+                            <form
+                                method="POST"
+                                action="{{ url_for('toggle_assignment', assignment_id=assignment['id']) }}"
+                            >
 
+                                {% if assignment['completed'] %}
 
-{% for assignment in assignments %}
+                                    <button
+                                        type="submit"
+                                        class="action-btn undo-btn"
+                                    >
+                                        ↩ Undo
+                                    </button>
 
+                                {% else %}
 
-<div
-class="assignment
-{% if assignment['completed'] %}
-completed
-{% endif %}"
->
+                                    <button
+                                        type="submit"
+                                        class="action-btn done-btn"
+                                    >
+                                        ✓ Done
+                                    </button>
 
+                                {% endif %}
 
-<div>
+                            </form>
 
 
-<div class="title">
+                            <form
+                                method="POST"
+                                action="{{ url_for('delete_assignment', assignment_id=assignment['id']) }}"
+                                onsubmit="return confirm('Delete this assignment?');"
+                            >
 
-{{ assignment['title'] }}
+                                <button
+                                    type="submit"
+                                    class="action-btn delete-btn"
+                                >
+                                    🗑 Delete
+                                </button>
 
-</div>
+                            </form>
 
+                        </div>
 
-<div class="subject">
+                    </div>
 
-{{ assignment['subject'] }}
+                </div>
 
-</div>
+                {% endfor %}
 
+            {% else %}
 
-<div class="details">
+                <div class="empty">
 
-📅 {{ assignment['due_date'] }}
+                    <div class="empty-icon">📝</div>
 
-&nbsp; | &nbsp;
+                    <div>No assignments yet.</div>
 
-⏰ {{ assignment['due_time'] }}
+                    <div style="margin-top: 5px;">
+                        Add your first assignment from the left.
+                    </div>
 
-</div>
+                </div>
 
+            {% endif %}
 
-<span
-class="priority
+        </div>
 
-{% if assignment['priority'] == 'High' %}
-high
+    </div>
 
-{% elif assignment['priority'] == 'Low' %}
-low
+</main>
 
-{% else %}
-medium
 
-{% endif %}"
->
-
-{{ assignment['priority'] }}
-
-</span>
-
-
-</div>
-
-
-<div class="actions">
-
-
-<a
-href="{{ url_for('toggle_assignment', assignment_id=assignment['id']) }}"
-class="complete"
->
-
-{% if assignment['completed'] %}
-
-↩ Undo
-
-{% else %}
-
-✓ Complete
-
-{% endif %}
-
-</a>
-
-
-<a
-href="{{ url_for('delete_assignment', assignment_id=assignment['id']) }}"
-class="delete"
->
-
-🗑 Delete
-
-</a>
-
-
-</div>
-
-
-</div>
-
-
-{% endfor %}
-
-
-{% else %}
-
-
-<div class="empty">
-
-No assignments added yet 🌸
-
-</div>
-
-
-{% endif %}
-
-
-</div>
-
-
-</div>
-
-
-<script>
-
-
-// ================================
-// NOTIFICATION PERMISSION
-// ================================
-
-function enableNotifications(){
-
-    if(!("Notification" in window)){
-
-        alert(
-            "This browser does not support notifications."
-        );
-
-        return;
-    }
-
-
-    Notification.requestPermission().then(function(permission){
-
-        const status =
-            document.getElementById(
-                "notificationStatus"
-            );
-
-
-        status.innerText =
-            "Permission: " + permission;
-
-
-        if(permission === "granted"){
-
-            new Notification(
-                "MyLife",
-                {
-                    body:
-                    "Notifications are enabled successfully."
-                }
-            );
-
-
-            speak(
-                "MyLife notifications are enabled."
-            );
-
-        }
-
-    });
-
-}
-
-
-// ================================
-// VOICE
-// ================================
-
-function speak(message){
-
-    if(!("speechSynthesis" in window)){
-
-        return;
-
-    }
-
-
-    window.speechSynthesis.cancel();
-
-
-    const speech =
-        new SpeechSynthesisUtterance(
-            message
-        );
-
-
-    speech.lang = "en-US";
-
-    speech.rate = 0.9;
-
-    speech.pitch = 1;
-
-    speech.volume = 1;
-
-
-    window.speechSynthesis.speak(
-        speech
-    );
-
-}
-
-
-// ================================
-// NOTIFICATION
-// ================================
-
-function showNotification(
-    title,
-    message
-){
-
-    if(
-        "Notification" in window &&
-        Notification.permission === "granted"
-    ){
-
-        new Notification(
-            title,
-            {
-                body:message
-            }
-        );
-
-    }
-
-}
-
-
-// ================================
-// CHECK ASSIGNMENTS
-// ================================
-
-function checkAssignmentReminders(){
-
-    const now =
-        new Date();
-
-
-    const currentDate =
-        now.getFullYear()
-        + "-"
-        + String(
-            now.getMonth() + 1
-        ).padStart(2,"0")
-        + "-"
-        + String(
-            now.getDate()
-        ).padStart(2,"0");
-
-
-    const currentTime =
-        String(
-            now.getHours()
-        ).padStart(2,"0")
-        + ":"
-        + String(
-            now.getMinutes()
-        ).padStart(2,"0");
-
-
-    const assignments = [
-
-    {% for assignment in assignments %}
-
-        {% if not assignment['completed'] %}
-
-        {
-
-            id:
-            "{{ assignment['id'] }}",
-
-            title:
-            {{ assignment['title']|tojson }},
-
-            subject:
-            {{ assignment['subject']|tojson }},
-
-            date:
-            "{{ assignment['due_date'] }}",
-
-            time:
-            "{{ assignment['due_time'] }}"
-
-        },
-
-        {% endif %}
-
-    {% endfor %}
-
-    ];
-
-
-    assignments.forEach(
-        function(assignment){
-
-            if(
-                assignment.date === currentDate &&
-                assignment.time === currentTime
-            ){
-
-                const key =
-                    "assignment_reminder_"
-                    + assignment.id
-                    + "_"
-                    + currentDate
-                    + "_"
-                    + currentTime;
-
-
-                if(
-                    !localStorage.getItem(key)
-                ){
-
-                    const message =
-                        "Reminder. Your assignment, "
-                        + assignment.title
-                        + ", for "
-                        + assignment.subject
-                        + ", is due now.";
-
-
-                    speak(message);
-
-
-                    showNotification(
-                        "MyLife Assignment Reminder",
-                        message
-                    );
-
-
-                    localStorage.setItem(
-                        key,
-                        "done"
-                    );
-
-                }
-
-            }
-
-        }
-    );
-
-}
-
-
-// Check immediately
-checkAssignmentReminders();
-
-
-// Check every 10 seconds
-setInterval(
-    checkAssignmentReminders,
-    10000
-);
-
-
-</script>
-
+<footer>
+    💜 MyLife — Plan • Organize • Achieve
+</footer>
 
 </body>
-
 </html>

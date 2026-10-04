@@ -1,302 +1,264 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
+{% block content %}
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    .calendar-page {
+        padding: 25px;
+        max-width: 1200px;
+        margin: auto;
+    }
 
-    <title>Calendar - MyLife</title>
+    .calendar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    .calendar-title h1 {
+        margin: 0;
+        font-size: 32px;
+        font-weight: 700;
+    }
 
-    <style>
+    .calendar-title p {
+        margin: 7px 0 0;
+        color: #777;
+    }
 
-        * {
-            box-sizing: border-box;
+    .month-controls {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .month-controls button {
+        border: none;
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 20px;
+        background: #eeeeee;
+    }
+
+    .month-controls button:hover {
+        background: #dddddd;
+    }
+
+    #monthYear {
+        min-width: 180px;
+        text-align: center;
+        font-size: 21px;
+        font-weight: 600;
+    }
+
+    .calendar-card {
+        background: white;
+        border-radius: 22px;
+        padding: 18px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+
+    .weekdays {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+
+    .weekday {
+        text-align: center;
+        font-weight: 600;
+        color: #777;
+        padding: 10px 4px;
+        font-size: 14px;
+    }
+
+    .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+    }
+
+    .calendar-day {
+        min-height: 105px;
+        border: 1px solid #eeeeee;
+        border-radius: 15px;
+        padding: 9px;
+        background: #fafafa;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .calendar-day:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.07);
+    }
+
+    .calendar-day.empty {
+        background: transparent;
+        border: none;
+        cursor: default;
+    }
+
+    .day-number {
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .today {
+        border: 2px solid #777 !important;
+        background: #f0f0f0;
+    }
+
+    .event {
+        font-size: 11px;
+        padding: 4px 6px;
+        margin-top: 4px;
+        border-radius: 7px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .task-event {
+        background: #e7e7e7;
+    }
+
+    .study-event {
+        background: #ededed;
+    }
+
+    .assignment-event {
+        background: #dcdcdc;
+    }
+
+    .completed-event {
+        text-decoration: line-through;
+        opacity: 0.55;
+    }
+
+    .legend {
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+        color: #666;
+        font-size: 13px;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+    }
+
+    .legend-box {
+        width: 13px;
+        height: 13px;
+        border-radius: 4px;
+    }
+
+    .legend-task {
+        background: #e7e7e7;
+    }
+
+    .legend-study {
+        background: #ededed;
+    }
+
+    .legend-assignment {
+        background: #dcdcdc;
+    }
+
+    .event-list {
+        margin-top: 25px;
+    }
+
+    .event-list h2 {
+        font-size: 22px;
+        margin-bottom: 15px;
+    }
+
+    .event-card {
+        background: white;
+        border-radius: 16px;
+        padding: 15px;
+        margin-bottom: 10px;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+    }
+
+    .event-card-title {
+        font-weight: 600;
+        font-size: 16px;
+    }
+
+    .event-card-info {
+        color: #777;
+        font-size: 13px;
+        margin-top: 5px;
+    }
+
+    .no-events {
+        color: #888;
+        padding: 15px 0;
+    }
+
+    @media (max-width: 700px) {
+
+        .calendar-page {
+            padding: 12px;
         }
 
-        body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background: #f4f2f7;
-            color: #444;
-        }
-
-        .navbar {
-            background: white;
-            padding: 18px 7%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.06);
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: #7b6fa8;
-        }
-
-        .back {
-            text-decoration: none;
-            color: #665b82;
-            font-weight: 600;
-        }
-
-        .container {
-            width: 92%;
-            max-width: 1200px;
-            margin: 35px auto;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            gap: 15px;
-        }
-
-        .header h1 {
-            margin: 0;
-            color: #51496b;
-        }
-
-        .header p {
-            margin: 6px 0 0;
-            color: #888;
-        }
-
-        .calendar-card {
-            background: white;
-            padding: 25px;
-            border-radius: 22px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-        }
-
-        .calendar-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .calendar-top h2 {
-            margin: 0;
-            color: #51496b;
-        }
-
-        .month-buttons {
-            display: flex;
-            gap: 8px;
-        }
-
-        .month-buttons button {
-            border: none;
-            background: #eeeaf7;
-            color: #665b82;
-            padding: 9px 13px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: 600;
-        }
-
-        .today-btn {
-            background: #8d80b5 !important;
-            color: white !important;
-        }
-
-        .weekdays,
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 7px;
-        }
-
-        .weekday {
-            text-align: center;
-            font-weight: 600;
-            font-size: 13px;
-            color: #888;
-            padding: 8px;
-        }
-
-        .day {
-            min-height: 110px;
-            border: 1px solid #eeeaf4;
-            border-radius: 13px;
-            padding: 9px;
-            background: #fcfbfd;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .day:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-
-        .day-number {
-            font-size: 13px;
-            font-weight: 600;
-            color: #665b82;
-            margin-bottom: 5px;
-        }
-
-        .other-month {
-            opacity: 0.35;
-        }
-
-        .today {
-            border: 2px solid #9c8fc2;
-            background: #f5f1fb;
+        .calendar-day {
+            min-height: 75px;
+            padding: 5px;
         }
 
         .event {
-            font-size: 10px;
-            padding: 4px 5px;
-            margin-top: 4px;
-            border-radius: 6px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
+            font-size: 9px;
         }
 
-        .task {
-            background: #eeeaf7;
-            color: #665b82;
+        .weekday {
+            font-size: 11px;
         }
 
-        .study {
-            background: #eaf3f8;
-            color: #55778b;
-        }
-
-        .assignment {
-            background: #f7eee7;
-            color: #88664e;
-        }
-
-        .expense {
-            background: #f8eaea;
-            color: #916060;
-        }
-
-        .shopping {
-            background: #e9f3eb;
-            color: #527b5c;
-        }
-
-        .legend {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .legend-item {
+        .day-number {
             font-size: 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
-        .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
+        #monthYear {
+            min-width: 140px;
         }
-
-        .details-card {
-            margin-top: 20px;
-            background: white;
-            padding: 22px;
-            border-radius: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-        }
-
-        .details-card h3 {
-            margin-top: 0;
-            color: #51496b;
-        }
-
-        .detail-event {
-            padding: 10px 12px;
-            margin-top: 8px;
-            border-radius: 10px;
-            background: #f7f5fa;
-            font-size: 13px;
-        }
-
-        @media (max-width: 800px) {
-
-            .calendar-card {
-                padding: 15px;
-            }
-
-            .day {
-                min-height: 80px;
-                padding: 6px;
-            }
-
-            .event {
-                font-size: 8px;
-            }
-        }
-
-        @media (max-width: 550px) {
-
-            .container {
-                width: 96%;
-            }
-
-            .calendar-top {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .day {
-                min-height: 65px;
-            }
-
-            .event {
-                display: none;
-            }
-
-            .weekday {
-                font-size: 10px;
-            }
-        }
-
-    </style>
-
-</head>
+    }
+</style>
 
 
-<body>
+<div class="calendar-page">
 
-<nav class="navbar">
+    <div class="calendar-header">
 
-    <div class="logo">
-        💜 MyLife
-    </div>
-
-    <a href="{{ url_for('dashboard') }}" class="back">
-        ← Dashboard
-    </a>
-
-</nav>
-
-
-<div class="container">
-
-    <div class="header">
-
-        <div>
+        <div class="calendar-title">
             <h1>📅 Calendar</h1>
-            <p>View your tasks, study plans, assignments, expenses and shopping plans.</p>
+            <p>Plan your tasks, studies and assignments</p>
+        </div>
+
+        <div class="month-controls">
+
+            <button onclick="previousMonth()">
+                ‹
+            </button>
+
+            <div id="monthYear"></div>
+
+            <button onclick="nextMonth()">
+                ›
+            </button>
+
         </div>
 
     </div>
@@ -304,31 +266,7 @@
 
     <div class="calendar-card">
 
-        <div class="calendar-top">
-
-            <h2 id="monthTitle"></h2>
-
-            <div class="month-buttons">
-
-                <button onclick="previousMonth()">
-                    ←
-                </button>
-
-                <button class="today-btn" onclick="goToday()">
-                    Today
-                </button>
-
-                <button onclick="nextMonth()">
-                    →
-                </button>
-
-            </div>
-
-        </div>
-
-
         <div class="weekdays">
-
             <div class="weekday">Sun</div>
             <div class="weekday">Mon</div>
             <div class="weekday">Tue</div>
@@ -336,38 +274,25 @@
             <div class="weekday">Thu</div>
             <div class="weekday">Fri</div>
             <div class="weekday">Sat</div>
-
         </div>
 
-
         <div id="calendarGrid" class="calendar-grid"></div>
-
 
         <div class="legend">
 
             <div class="legend-item">
-                <span class="dot task"></span>
-                Task
+                <span class="legend-box legend-task"></span>
+                Tasks
             </div>
 
             <div class="legend-item">
-                <span class="dot study"></span>
+                <span class="legend-box legend-study"></span>
                 Study
             </div>
 
             <div class="legend-item">
-                <span class="dot assignment"></span>
-                Assignment
-            </div>
-
-            <div class="legend-item">
-                <span class="dot expense"></span>
-                Expense
-            </div>
-
-            <div class="legend-item">
-                <span class="dot shopping"></span>
-                Shopping
+                <span class="legend-box legend-assignment"></span>
+                Assignments
             </div>
 
         </div>
@@ -375,15 +300,11 @@
     </div>
 
 
-    <div class="details-card">
+    <div class="event-list">
 
-        <h3 id="detailsTitle">
-            📌 Select a date
-        </h3>
+        <h2>📌 Upcoming Items</h2>
 
-        <div id="detailsList">
-            Click any date to see its details.
-        </div>
+        <div id="upcomingEvents"></div>
 
     </div>
 
@@ -392,388 +313,397 @@
 
 <script>
 
-const tasks = {{ tasks | tojson }};
-const studyPlans = {{ study_plans | tojson }};
-const assignments = {{ assignments | tojson }};
-const expenses = {{ expenses | tojson }};
-const shoppingItems = {{ shopping_items | tojson }};
+    /*
+       IMPORTANT:
+       These are the only variables received from app.py.
+       They are converted to JSON safely.
+    */
 
+    const tasks = {{ tasks | default([]) | tojson | safe }};
 
-let currentDate = new Date();
+    const assignments = {{ assignments | default([]) | tojson | safe }};
 
+    const studyPlans = {{ study_plans | default([]) | tojson | safe }};
 
-function pad(number) {
 
-    return String(number).padStart(2, "0");
+    let currentDate = new Date();
 
-}
 
+    // =====================================================
+    // CREATE EVENTS
+    // =====================================================
 
-function dateKey(year, month, day) {
+    function getEvents() {
 
-    return year + "-" +
-           pad(month + 1) + "-" +
-           pad(day);
+        let events = [];
 
-}
 
+        // -------------------------
+        // Tasks
+        // -------------------------
 
-function formatDate(dateString) {
+        tasks.forEach(function(task) {
 
-    const parts = dateString.split("-");
+            if (task.due_date) {
 
-    return parts[2] + "/" +
-           parts[1] + "/" +
-           parts[0];
-
-}
-
-
-function getEventsForDate(key) {
-
-    const events = [];
-
-
-    tasks.forEach(task => {
-
-        if (task.task_date === key) {
-
-            events.push({
-                type: "task",
-                title: "📝 " + task.title,
-                time: task.task_time || ""
-            });
-
-        }
-
-    });
-
-
-    studyPlans.forEach(plan => {
-
-        if (plan.study_date === key) {
-
-            events.push({
-                type: "study",
-                title: "📚 " + plan.subject + " - " + plan.topic,
-                time: plan.study_time || ""
-            });
-
-        }
-
-    });
-
-
-    assignments.forEach(item => {
-
-        if (item.due_date === key) {
-
-            events.push({
-                type: "assignment",
-                title: "📌 " + item.title,
-                time: item.due_time || ""
-            });
-
-        }
-
-    });
-
-
-    expenses.forEach(expense => {
-
-        if (expense.expense_date === key) {
-
-            events.push({
-                type: "expense",
-                title: "💰 " + expense.title + " ₹" + expense.amount,
-                time: ""
-            });
-
-        }
-
-    });
-
-
-    shoppingItems.forEach(item => {
-
-        if (item.shopping_date === key) {
-
-            events.push({
-                type: "shopping",
-                title: "🛍️ " + item.item_name,
-                time: ""
-            });
-
-        }
-
-    });
-
-
-    return events;
-
-}
-
-
-function renderCalendar() {
-
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
-
-
-    const monthNames = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-    ];
-
-
-    document.getElementById("monthTitle").innerText =
-        monthNames[month] + " " + year;
-
-
-    const grid = document.getElementById("calendarGrid");
-
-    grid.innerHTML = "";
-
-
-    const firstDay = new Date(year, month, 1).getDay();
-
-    const daysInMonth =
-        new Date(year, month + 1, 0).getDate();
-
-
-    const previousMonthDays =
-        new Date(year, month, 0).getDate();
-
-
-    const today = new Date();
-
-
-    for (let i = 0; i < 42; i++) {
-
-        const cell = document.createElement("div");
-
-        cell.className = "day";
-
-
-        let dayNumber;
-        let cellYear = year;
-        let cellMonth = month;
-
-
-        if (i < firstDay) {
-
-            dayNumber =
-                previousMonthDays - firstDay + i + 1;
-
-            cellMonth = month - 1;
-
-            if (cellMonth < 0) {
-
-                cellMonth = 11;
-                cellYear--;
+                events.push({
+                    id: task.id,
+                    title: task.title || "Task",
+                    date: task.due_date,
+                    type: "task",
+                    completed: Number(task.completed) === 1
+                });
 
             }
-
-            cell.classList.add("other-month");
-
-        }
-
-        else if (i >= firstDay + daysInMonth) {
-
-            dayNumber =
-                i - firstDay - daysInMonth + 1;
-
-            cellMonth = month + 1;
-
-            if (cellMonth > 11) {
-
-                cellMonth = 0;
-                cellYear++;
-
-            }
-
-            cell.classList.add("other-month");
-
-        }
-
-        else {
-
-            dayNumber = i - firstDay + 1;
-
-        }
-
-
-        const key =
-            dateKey(
-                cellYear,
-                cellMonth,
-                dayNumber
-            );
-
-
-        if (
-            cellYear === today.getFullYear() &&
-            cellMonth === today.getMonth() &&
-            dayNumber === today.getDate()
-        ) {
-
-            cell.classList.add("today");
-
-        }
-
-
-        const numberDiv =
-            document.createElement("div");
-
-        numberDiv.className = "day-number";
-
-        numberDiv.innerText = dayNumber;
-
-        cell.appendChild(numberDiv);
-
-
-        const events =
-            getEventsForDate(key);
-
-
-        events.slice(0, 4).forEach(event => {
-
-            const eventDiv =
-                document.createElement("div");
-
-            eventDiv.className =
-                "event " + event.type;
-
-            eventDiv.innerText =
-                event.title;
-
-            cell.appendChild(eventDiv);
 
         });
 
 
-        if (events.length > 4) {
+        // -------------------------
+        // Assignments
+        // -------------------------
 
-            const more =
-                document.createElement("div");
+        assignments.forEach(function(assignment) {
 
-            more.className = "event";
+            if (assignment.due_date) {
 
-            more.innerText =
-                "+" + (events.length - 4) + " more";
+                let title = assignment.title || "Assignment";
 
-            cell.appendChild(more);
+                if (assignment.subject) {
+                    title = assignment.subject + ": " + title;
+                }
+
+                events.push({
+                    id: assignment.id,
+                    title: title,
+                    date: assignment.due_date,
+                    type: "assignment",
+                    completed: Number(assignment.completed) === 1
+                });
+
+            }
+
+        });
+
+
+        // -------------------------
+        // Study Plans
+        // -------------------------
+
+        studyPlans.forEach(function(study) {
+
+            if (study.study_date) {
+
+                let title = study.subject || "Study";
+
+                if (study.topic) {
+                    title += ": " + study.topic;
+                }
+
+                events.push({
+                    id: study.id,
+                    title: title,
+                    date: study.study_date,
+                    type: "study",
+                    completed: Number(study.completed) === 1
+                });
+
+            }
+
+        });
+
+
+        return events;
+    }
+
+
+    // =====================================================
+    // CALENDAR
+    // =====================================================
+
+    function renderCalendar() {
+
+        const year = currentDate.getFullYear();
+
+        const month = currentDate.getMonth();
+
+        const monthNames = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        ];
+
+        document.getElementById("monthYear").textContent =
+            monthNames[month] + " " + year;
+
+
+        const grid = document.getElementById("calendarGrid");
+
+        grid.innerHTML = "";
+
+
+        const firstDay = new Date(
+            year,
+            month,
+            1
+        ).getDay();
+
+
+        const daysInMonth = new Date(
+            year,
+            month + 1,
+            0
+        ).getDate();
+
+
+        const events = getEvents();
+
+
+        // Empty boxes before first day
+        for (let i = 0; i < firstDay; i++) {
+
+            const emptyDay = document.createElement("div");
+
+            emptyDay.className = "calendar-day empty";
+
+            grid.appendChild(emptyDay);
+        }
+
+
+        // Days
+        for (let day = 1; day <= daysInMonth; day++) {
+
+            const dayBox = document.createElement("div");
+
+            dayBox.className = "calendar-day";
+
+
+            const number = document.createElement("div");
+
+            number.className = "day-number";
+
+            number.textContent = day;
+
+            dayBox.appendChild(number);
+
+
+            const dateString =
+                year + "-" +
+                String(month + 1).padStart(2, "0") + "-" +
+                String(day).padStart(2, "0");
+
+
+            // Today
+            const today = new Date();
+
+            const todayString =
+                today.getFullYear() + "-" +
+                String(today.getMonth() + 1).padStart(2, "0") + "-" +
+                String(today.getDate()).padStart(2, "0");
+
+
+            if (dateString === todayString) {
+
+                dayBox.classList.add("today");
+
+            }
+
+
+            // Events for this day
+            const dayEvents = events.filter(function(event) {
+
+                return event.date === dateString;
+
+            });
+
+
+            dayEvents.forEach(function(event) {
+
+                const eventElement =
+                    document.createElement("div");
+
+
+                eventElement.className =
+                    "event " +
+                    event.type + "-event";
+
+
+                if (event.completed) {
+
+                    eventElement.classList.add(
+                        "completed-event"
+                    );
+
+                }
+
+
+                eventElement.textContent =
+                    event.title;
+
+
+                dayBox.appendChild(eventElement);
+
+            });
+
+
+            grid.appendChild(dayBox);
 
         }
 
 
-        cell.onclick = function() {
-
-            showDetails(key);
-
-        };
-
-
-        grid.appendChild(cell);
-
-    }
-
-}
-
-
-function showDetails(key) {
-
-    const detailsTitle =
-        document.getElementById("detailsTitle");
-
-    const detailsList =
-        document.getElementById("detailsList");
-
-
-    detailsTitle.innerText =
-        "📌 " + formatDate(key);
-
-
-    const events =
-        getEventsForDate(key);
-
-
-    detailsList.innerHTML = "";
-
-
-    if (events.length === 0) {
-
-        detailsList.innerHTML =
-            '<div class="detail-event">No events for this date.</div>';
-
-        return;
+        renderUpcomingEvents(events);
 
     }
 
 
-    events.forEach(event => {
+    // =====================================================
+    // UPCOMING EVENTS
+    // =====================================================
 
-        const div =
-            document.createElement("div");
+    function renderUpcomingEvents(events) {
 
-        div.className = "detail-event";
-
-        div.innerText =
-            event.title +
-            (event.time ? " • " + event.time : "");
-
-        detailsList.appendChild(div);
-
-    });
-
-}
+        const container =
+            document.getElementById("upcomingEvents");
 
 
-function previousMonth() {
+        container.innerHTML = "";
 
-    currentDate.setMonth(
-        currentDate.getMonth() - 1
-    );
+
+        const today = new Date();
+
+        today.setHours(0, 0, 0, 0);
+
+
+        const upcoming = events
+            .filter(function(event) {
+
+                if (!event.date) {
+                    return false;
+                }
+
+                const eventDate =
+                    new Date(event.date + "T00:00:00");
+
+                return eventDate >= today;
+
+            })
+            .sort(function(a, b) {
+
+                return a.date.localeCompare(b.date);
+
+            })
+            .slice(0, 10);
+
+
+        if (upcoming.length === 0) {
+
+            container.innerHTML =
+                '<div class="no-events">No upcoming items 🎉</div>';
+
+            return;
+
+        }
+
+
+        upcoming.forEach(function(event) {
+
+            const card =
+                document.createElement("div");
+
+            card.className = "event-card";
+
+
+            const title =
+                document.createElement("div");
+
+            title.className =
+                "event-card-title";
+
+            title.textContent =
+                event.title;
+
+
+            const info =
+                document.createElement("div");
+
+            info.className =
+                "event-card-info";
+
+
+            let typeText = "";
+
+            if (event.type === "task") {
+                typeText = "📝 Task";
+            }
+
+            if (event.type === "study") {
+                typeText = "📚 Study";
+            }
+
+            if (event.type === "assignment") {
+                typeText = "📖 Assignment";
+            }
+
+
+            info.textContent =
+                typeText +
+                " • " +
+                event.date;
+
+
+            card.appendChild(title);
+
+            card.appendChild(info);
+
+
+            container.appendChild(card);
+
+        });
+
+    }
+
+
+    // =====================================================
+    // MONTH NAVIGATION
+    // =====================================================
+
+    function previousMonth() {
+
+        currentDate.setMonth(
+            currentDate.getMonth() - 1
+        );
+
+        renderCalendar();
+
+    }
+
+
+    function nextMonth() {
+
+        currentDate.setMonth(
+            currentDate.getMonth() + 1
+        );
+
+        renderCalendar();
+
+    }
+
+
+    // =====================================================
+    // START
+    // =====================================================
 
     renderCalendar();
-
-}
-
-
-function nextMonth() {
-
-    currentDate.setMonth(
-        currentDate.getMonth() + 1
-    );
-
-    renderCalendar();
-
-}
-
-
-function goToday() {
-
-    currentDate = new Date();
-
-    renderCalendar();
-
-}
-
-
-renderCalendar();
 
 </script>
 
-</body>
-
-</html>
+{% endblock %}

@@ -1,67 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>MyLife Summary</title>
+    <title>MyLife - Summary</title>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
             font-family: "Poppins", sans-serif;
-            background: #f4f2f7;
-            color: #51496b;
+            background: #eeeef2;
+            color: #302b3a;
+            min-height: 100vh;
         }
 
-        /* NAVBAR */
-
         .navbar {
-            background: white;
-            padding: 17px 7%;
+            background: #fff;
+            padding: 16px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 3px 15px rgba(0,0,0,.06);
+            position: sticky;
+            top: 0;
+            z-index: 20;
         }
 
         .logo {
+            color: #7656a8;
             font-size: 25px;
             font-weight: 700;
-            color: #7567a8;
-        }
-
-        .back-btn {
             text-decoration: none;
-            color: #665b82;
-            background: #eeeaf7;
-            padding: 9px 17px;
-            border-radius: 12px;
-            font-weight: 600;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .welcome {
+            color: #696371;
+            font-size: 14px;
+        }
+
+        .logout {
+            color: #fff;
+            background: #7656a8;
+            text-decoration: none;
+            padding: 9px 16px;
+            border-radius: 10px;
             font-size: 13px;
+            font-weight: 600;
         }
-
-        .back-btn:hover {
-            background: #e2ddf0;
-        }
-
-        /* CONTAINER */
 
         .container {
-            width: 90%;
-            max-width: 1100px;
+            width: 92%;
+            max-width: 1150px;
             margin: 35px auto;
+        }
+
+        .back {
+            display: inline-block;
+            color: #7656a8;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 18px;
         }
 
         .heading {
@@ -69,351 +83,324 @@
         }
 
         .heading h1 {
-            margin: 0;
             font-size: 30px;
-            color: #51496b;
+            color: #302b3a;
         }
 
         .heading p {
-            margin-top: 7px;
-            color: #888;
-            font-size: 14px;
+            color: #77717f;
+            margin-top: 5px;
         }
 
-        /* OVERVIEW */
-
-        .overview {
+        .stats {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 15px;
             margin-bottom: 25px;
         }
 
-        .overview-card {
-            background: white;
-            padding: 20px 12px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+        .stat-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: 0 5px 18px rgba(0,0,0,.06);
         }
 
-        .overview-card .icon {
-            font-size: 27px;
+        .stat-icon {
+            font-size: 26px;
+            margin-bottom: 8px;
         }
 
-        .overview-card h3 {
+        .stat-card h3 {
+            color: #77717f;
             font-size: 12px;
-            color: #888;
-            margin: 8px 0 4px;
             font-weight: 500;
         }
 
-        .overview-card p {
-            font-size: 23px;
+        .number {
+            font-size: 24px;
             font-weight: 700;
-            color: #7567a8;
-            margin: 0;
+            margin-top: 4px;
+            color: #302b3a;
         }
 
-        /* SECTIONS */
-
         .section {
-            background: white;
-            padding: 24px;
-            border-radius: 22px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 22px;
+            box-shadow: 0 5px 18px rgba(0,0,0,.06);
         }
 
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
 
         .section-header h2 {
-            margin: 0;
-            color: #51496b;
             font-size: 20px;
-        }
-
-        .count {
-            background: #eeeaf7;
-            color: #665b82;
-            padding: 5px 11px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-        /* LIST ITEMS */
-
-        .item {
-            background: #fcfbfd;
-            border: 1px solid #eeeaf4;
-            border-radius: 14px;
-            padding: 14px 16px;
-            margin-top: 10px;
-        }
-
-        .item.completed {
-            opacity: 0.55;
-        }
-
-        .item.completed .title {
-            text-decoration: line-through;
-        }
-
-        .title {
-            font-size: 15px;
-            font-weight: 600;
-            color: #51496b;
-        }
-
-        .info {
-            font-size: 12px;
-            color: #888;
-            margin-top: 5px;
-            line-height: 1.8;
+            color: #342e40;
         }
 
         .badge {
-            display: inline-block;
-            margin-top: 7px;
-            padding: 4px 10px;
-            border-radius: 15px;
-            background: #eeeaf7;
-            color: #665b82;
-            font-size: 10px;
+            background: #eee8f7;
+            color: #7656a8;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: 600;
         }
 
-        .expense-amount {
-            margin-top: 6px;
-            color: #8b5d5d;
-            font-weight: 700;
+        .list {
+            display: grid;
+            gap: 10px;
         }
 
-        .shopping-amount {
-            margin-top: 6px;
-            color: #527b5c;
+        .list-item {
+            background: #faf9fc;
+            border: 1px solid #ebe7ef;
+            border-radius: 13px;
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .item-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #3c3743;
+        }
+
+        .item-meta {
+            color: #89828f;
+            font-size: 11px;
+            margin-top: 3px;
+        }
+
+        .item-value {
+            color: #7656a8;
             font-weight: 700;
+            white-space: nowrap;
         }
 
         .empty {
             text-align: center;
-            padding: 22px;
-            color: #999;
-            font-size: 13px;
+            padding: 25px;
+            color: #8c8692;
         }
 
-        /* FINANCIAL SUMMARY */
-
-        .financial {
-            background: white;
-            padding: 24px;
-            border-radius: 22px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
-            margin-bottom: 30px;
+        .empty-icon {
+            font-size: 35px;
+            margin-bottom: 8px;
         }
 
-        .financial h2 {
-            margin-top: 0;
-            color: #51496b;
-            font-size: 20px;
-        }
-
-        .money-row {
+        .expense-total {
+            background: #f4f0f8;
+            border-radius: 14px;
+            padding: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 14px 0;
-            border-bottom: 1px solid #eeeaf4;
+            margin-bottom: 15px;
+        }
+
+        .expense-total span {
+            color: #6d6675;
+            font-size: 13px;
+        }
+
+        .expense-total strong {
+            color: #7656a8;
+            font-size: 20px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .dashboard-btn {
+            display: inline-block;
+            text-decoration: none;
+            background: #7656a8;
+            color: #fff;
+            padding: 12px 22px;
+            border-radius: 11px;
             font-size: 14px;
+            font-weight: 600;
         }
 
-        .money-row:last-child {
-            border-bottom: none;
-        }
-
-        .money-value {
-            font-weight: 700;
-            color: #7567a8;
-        }
-
-        /* RESPONSIVE */
-
-        @media (max-width: 900px) {
-
-            .overview {
+        @media (max-width: 1000px) {
+            .stats {
                 grid-template-columns: repeat(3, 1fr);
             }
-
         }
 
-        @media (max-width: 600px) {
-
-            .navbar {
-                padding: 15px 4%;
+        @media (max-width: 700px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .container {
                 width: 94%;
-                margin-top: 25px;
             }
 
             .heading h1 {
                 font-size: 25px;
             }
 
-            .overview {
-                grid-template-columns: repeat(2, 1fr);
+            .section {
+                padding: 20px;
             }
-
-            .section,
-            .financial {
-                padding: 18px;
-            }
-
         }
 
-        @media (max-width: 400px) {
-
-            .overview {
-                grid-template-columns: 1fr;
+        @media (max-width: 500px) {
+            .navbar {
+                padding: 14px 4%;
             }
 
-            .section-header {
+            .welcome {
+                display: none;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .list-item {
                 align-items: flex-start;
-                gap: 10px;
             }
-
         }
-
     </style>
-
 </head>
-
 
 <body>
 
-
-<!-- NAVBAR -->
-
 <nav class="navbar">
 
-    <div class="logo">
+    <a href="{{ url_for('dashboard') }}" class="logo">
         💜 MyLife
-    </div>
-
-    <a
-        href="{{ url_for('dashboard') }}"
-        class="back-btn"
-    >
-        ← Dashboard
     </a>
+
+    <div class="nav-right">
+
+        <span class="welcome">
+            Hi, {{ user_name }} 👋
+        </span>
+
+        <a href="{{ url_for('logout') }}" class="logout">
+            Logout
+        </a>
+
+    </div>
 
 </nav>
 
 
 <div class="container">
 
+    <a href="{{ url_for('dashboard') }}" class="back">
+        ← Back to Dashboard
+    </a>
 
-    <!-- HEADING -->
 
     <div class="heading">
 
-        <h1>📋 MyLife Summary</h1>
+        <h1>📊 MyLife Summary</h1>
 
         <p>
-            All your activities and plans in one place.
+            A quick overview of everything you've added to MyLife.
         </p>
 
     </div>
 
 
-    <!-- OVERVIEW CARDS -->
+    <!-- STAT CARDS -->
 
-    <div class="overview">
+    <div class="stats">
 
-        <div class="overview-card">
+        <div class="stat-card">
 
-            <div class="icon">📝</div>
+            <div class="stat-icon">📝</div>
 
             <h3>To-Do Tasks</h3>
 
-            <p>
-                {{ task_count }}
-            </p>
+            <div class="number">
+                {{ task_count or 0 }}
+            </div>
 
         </div>
 
 
-        <div class="overview-card">
+        <div class="stat-card">
 
-            <div class="icon">📚</div>
+            <div class="stat-icon">📚</div>
 
             <h3>Study Plans</h3>
 
-            <p>
-                {{ study_count }}
-            </p>
+            <div class="number">
+                {{ study_count or 0 }}
+            </div>
 
         </div>
 
 
-        <div class="overview-card">
+        <div class="stat-card">
 
-            <div class="icon">📌</div>
+            <div class="stat-icon">📌</div>
 
             <h3>Assignments</h3>
 
-            <p>
-                {{ assignment_count }}
-            </p>
+            <div class="number">
+                {{ assignment_count or 0 }}
+            </div>
 
         </div>
 
 
-        <div class="overview-card">
+        <div class="stat-card">
 
-            <div class="icon">💰</div>
+            <div class="stat-icon">💰</div>
 
             <h3>Expenses</h3>
 
-            <p>
-                {{ expense_count }}
-            </p>
+            <div class="number">
+                {{ expense_count or 0 }}
+            </div>
 
         </div>
 
 
-        <div class="overview-card">
+        <div class="stat-card">
 
-            <div class="icon">🛍️</div>
+            <div class="stat-icon">🛍️</div>
 
-            <h3>Shopping</h3>
+            <h3>Shopping Items</h3>
 
-            <p>
-                {{ shopping_count }}
-            </p>
+            <div class="number">
+                {{ shopping_count or 0 }}
+            </div>
 
         </div>
 
     </div>
 
 
-    <!-- TODO LIST -->
+    <!-- TODO -->
 
     <div class="section">
 
         <div class="section-header">
 
-            <h2>📝 To-Do List</h2>
+            <h2>📝 To-Do Tasks</h2>
 
-            <span class="count">
-                {{ task_count }} Tasks
+            <span class="badge">
+                {{ task_count or 0 }} Tasks
             </span>
 
         </div>
@@ -421,73 +408,74 @@
 
         {% if tasks %}
 
+        <div class="list">
+
             {% for task in tasks %}
 
-                <div
-                    class="item {% if task['completed'] %}completed{% endif %}"
-                >
+            <div class="list-item">
 
-                    <div class="title">
+                <div>
 
-                        {% if task['completed'] %}
-                            ✅
-                        {% else %}
-                            ⬜
-                        {% endif %}
-
-                        {{ task['title'] }}
-
+                    <div class="item-title">
+                        {{ task['title'] or task['task'] }}
                     </div>
 
-                    <div class="info">
+                    <div class="item-meta">
 
-                        📅
-                        {{ task['task_date'] or 'No date' }}
+                        {% if task['task_date'] %}
+                            📅 {{ task['task_date'] }}
+                        {% endif %}
 
                         {% if task['task_time'] %}
-
-                            &nbsp; • &nbsp; ⏰
-                            {{ task['task_time'] }}
-
+                            • ⏰ {{ task['task_time'] }}
                         {% endif %}
 
                     </div>
-
-                    <span class="badge">
-
-                        {% if task['completed'] %}
-                            Completed
-                        {% else %}
-                            Pending
-                        {% endif %}
-
-                    </span>
 
                 </div>
 
+
+                <div class="item-value">
+
+                    {% if task['completed'] %}
+                        ✅ Done
+                    {% else %}
+                        ⏳ Pending
+                    {% endif %}
+
+                </div>
+
+            </div>
+
             {% endfor %}
+
+        </div>
 
         {% else %}
 
-            <div class="empty">
-                No To-Do tasks added yet.
-            </div>
+        <div class="empty">
+
+            <div class="empty-icon">📝</div>
+
+            <p>No tasks added yet.</p>
+
+        </div>
 
         {% endif %}
 
     </div>
 
 
-    <!-- STUDY PLANNER -->
+    <!-- STUDY -->
 
     <div class="section">
 
         <div class="section-header">
 
-            <h2>📚 Study Planner</h2>
+            <h2>📚 Study Plans</h2>
 
-            <span class="count">
-                {{ study_count }} Plans
+            <span class="badge">
+                {{ study_count or 0 }} Plans
             </span>
 
         </div>
@@ -495,52 +483,60 @@
 
         {% if study_plans %}
 
+        <div class="list">
+
             {% for plan in study_plans %}
 
-                <div
-                    class="item {% if plan['completed'] %}completed{% endif %}"
-                >
+            <div class="list-item">
 
-                    <div class="title">
+                <div>
 
-                        📖
+                    <div class="item-title">
                         {{ plan['subject'] }}
-                        — 
-                        {{ plan['topic'] }}
-
                     </div>
 
-                    <div class="info">
+                    <div class="item-meta">
 
-                        📅
-                        {{ plan['study_date'] }}
+                        {{ plan['topic'] or 'Study' }}
 
-                        &nbsp; • &nbsp;
-
-                        ⏰
-                        {{ plan['study_time'] }}
-
-                    </div>
-
-                    <span class="badge">
-
-                        {% if plan['completed'] %}
-                            Completed
-                        {% else %}
-                            Pending
+                        {% if plan['study_date'] %}
+                            • 📅 {{ plan['study_date'] }}
                         {% endif %}
 
-                    </span>
+                        {% if plan['study_time'] %}
+                            • ⏰ {{ plan['study_time'] }}
+                        {% endif %}
+
+                    </div>
 
                 </div>
 
+
+                <div class="item-value">
+
+                    {% if plan['completed'] %}
+                        ✅ Done
+                    {% else %}
+                        📖 Pending
+                    {% endif %}
+
+                </div>
+
+            </div>
+
             {% endfor %}
+
+        </div>
 
         {% else %}
 
-            <div class="empty">
-                No study plans added yet.
-            </div>
+        <div class="empty">
+
+            <div class="empty-icon">📚</div>
+
+            <p>No study plans added yet.</p>
+
+        </div>
 
         {% endif %}
 
@@ -555,8 +551,8 @@
 
             <h2>📌 Assignments</h2>
 
-            <span class="count">
-                {{ assignment_count }} Assignments
+            <span class="badge">
+                {{ assignment_count or 0 }} Assignments
             </span>
 
         </div>
@@ -564,67 +560,60 @@
 
         {% if assignments %}
 
+        <div class="list">
+
             {% for assignment in assignments %}
 
-                <div
-                    class="item {% if assignment['completed'] %}completed{% endif %}"
-                >
+            <div class="list-item">
 
-                    <div class="title">
+                <div>
 
-                        📌
+                    <div class="item-title">
                         {{ assignment['title'] }}
-
                     </div>
 
-                    <div class="info">
+                    <div class="item-meta">
 
-                        📚
-                        {{ assignment['subject'] }}
+                        {{ assignment['subject'] or 'Assignment' }}
 
-                        &nbsp; • &nbsp;
-
-                        📅
-                        {{ assignment['due_date'] }}
+                        {% if assignment['due_date'] %}
+                            • 📅 Due {{ assignment['due_date'] }}
+                        {% endif %}
 
                         {% if assignment['due_time'] %}
-
-                            &nbsp; • &nbsp;
-
-                            ⏰
-                            {{ assignment['due_time'] }}
-
+                            • ⏰ {{ assignment['due_time'] }}
                         {% endif %}
 
                     </div>
-
-                    <span class="badge">
-
-                        {{ assignment['priority'] }} Priority
-
-                    </span>
-
-                    <br>
-
-                    <span class="badge">
-
-                        {% if assignment['completed'] %}
-                            Completed
-                        {% else %}
-                            Pending
-                        {% endif %}
-
-                    </span>
 
                 </div>
 
+
+                <div class="item-value">
+
+                    {% if assignment['completed'] %}
+                        ✅ Done
+                    {% else %}
+                        ⏳ Pending
+                    {% endif %}
+
+                </div>
+
+            </div>
+
             {% endfor %}
+
+        </div>
 
         {% else %}
 
-            <div class="empty">
-                No assignments added yet.
-            </div>
+        <div class="empty">
+
+            <div class="empty-icon">📌</div>
+
+            <p>No assignments added yet.</p>
+
+        </div>
 
         {% endif %}
 
@@ -639,53 +628,74 @@
 
             <h2>💰 Expenses</h2>
 
-            <span class="count">
-                {{ expense_count }} Records
+            <span class="badge">
+                {{ expense_count or 0 }} Expenses
             </span>
+
+        </div>
+
+
+        <div class="expense-total">
+
+            <span>
+                Total Expense
+            </span>
+
+            <strong>
+                ₹{{ "%.0f"|format(total_expense or 0) }}
+            </strong>
 
         </div>
 
 
         {% if expenses %}
 
+        <div class="list">
+
             {% for expense in expenses %}
 
-                <div class="item">
+            <div class="list-item">
 
-                    <div class="title">
+                <div>
 
-                        💳
+                    <div class="item-title">
                         {{ expense['title'] }}
-
                     </div>
 
-                    <div class="info">
+                    <div class="item-meta">
 
-                        📂
-                        {{ expense['category'] }}
+                        {{ expense['category'] or 'Other' }}
 
-                        &nbsp; • &nbsp;
-
-                        📅
-                        {{ expense['expense_date'] }}
-
-                    </div>
-
-                    <div class="expense-amount">
-
-                        ₹{{ "%.2f"|format(expense['amount']) }}
+                        {% if expense['expense_date'] %}
+                            • 📅 {{ expense['expense_date'] }}
+                        {% endif %}
 
                     </div>
 
                 </div>
 
+
+                <div class="item-value">
+
+                    ₹{{ "%.0f"|format(expense['amount'] or 0) }}
+
+                </div>
+
+            </div>
+
             {% endfor %}
+
+        </div>
 
         {% else %}
 
-            <div class="empty">
-                No expenses added yet.
-            </div>
+        <div class="empty">
+
+            <div class="empty-icon">💰</div>
+
+            <p>No expenses added yet.</p>
+
+        </div>
 
         {% endif %}
 
@@ -698,10 +708,10 @@
 
         <div class="section-header">
 
-            <h2>🛍️ Shopping List</h2>
+            <h2>🛍️ Shopping</h2>
 
-            <span class="count">
-                {{ shopping_count }} Items
+            <span class="badge">
+                {{ shopping_count or 0 }} Items
             </span>
 
         </div>
@@ -709,130 +719,76 @@
 
         {% if shopping_items %}
 
+        <div class="list">
+
             {% for item in shopping_items %}
 
-                <div
-                    class="item {% if item['purchased'] %}completed{% endif %}"
-                >
+            <div class="list-item">
 
-                    <div class="title">
+                <div>
 
-                        {% if item['purchased'] %}
-                            ✅
-                        {% else %}
-                            🛍️
+                    <div class="item-title">
+                        {{ item['item_name'] }}
+                    </div>
+
+                    <div class="item-meta">
+
+                        {{ item['category'] or 'Other' }}
+
+                        • Qty: {{ item['quantity'] or 1 }}
+
+                        {% if item['shopping_date'] %}
+                            • 📅 {{ item['shopping_date'] }}
                         {% endif %}
 
-                        {{ item['item_name'] }}
-
                     </div>
-
-                    <div class="info">
-
-                        📂
-                        {{ item['category'] }}
-
-                        &nbsp; • &nbsp;
-
-                        📦
-                        Quantity:
-                        {{ item['quantity'] }}
-
-                        &nbsp; • &nbsp;
-
-                        📅
-                        {{ item['shopping_date'] }}
-
-                    </div>
-
-                    <div class="shopping-amount">
-
-                        ₹{{ "%.2f"|format(
-                            item['price'] * item['quantity']
-                        ) }}
-
-                    </div>
-
-                    <span class="badge">
-
-                        {{ item['priority'] }} Priority
-
-                    </span>
 
                 </div>
 
+
+                <div class="item-value">
+
+                    {% if item['purchased'] %}
+                        ✅ Purchased
+                    {% else %}
+                        ⏳ Pending
+                    {% endif %}
+
+                </div>
+
+            </div>
+
             {% endfor %}
+
+        </div>
 
         {% else %}
 
-            <div class="empty">
-                No shopping items added yet.
-            </div>
+        <div class="empty">
+
+            <div class="empty-icon">🛍️</div>
+
+            <p>No shopping items added yet.</p>
+
+        </div>
 
         {% endif %}
 
     </div>
 
 
-    <!-- FINANCIAL SUMMARY -->
+    <div class="actions">
 
-    <div class="financial">
-
-        <h2>💵 Financial Summary</h2>
-
-
-        <div class="money-row">
-
-            <span>
-                Total Expense
-            </span>
-
-            <span class="money-value">
-
-                ₹{{ "%.2f"|format(total_expense) }}
-
-            </span>
-
-        </div>
-
-
-        <div class="money-row">
-
-            <span>
-                Estimated Shopping Cost
-            </span>
-
-            <span class="money-value">
-
-                ₹{{ "%.2f"|format(estimated_cost) }}
-
-            </span>
-
-        </div>
-
-
-        <div class="money-row">
-
-            <span>
-                Total Planned Spending
-            </span>
-
-            <span class="money-value">
-
-                ₹{{ "%.2f"|format(
-                    total_expense + estimated_cost
-                ) }}
-
-            </span>
-
-        </div>
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="dashboard-btn"
+        >
+            🏠 Back to Dashboard
+        </a>
 
     </div>
 
-
 </div>
 
-
 </body>
-
 </html>
